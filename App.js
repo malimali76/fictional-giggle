@@ -5,17 +5,20 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import {HomeScreen} from './Dashboard';
+import {Profile} from './Profile';
+import { ShipmentDetails } from './shipmentDetails';
+import { NewShipment } from './NewShipment';
 
 //Problems: Figure out how to navigate to the Home Screen after adding user to the database
 //To Do: Create a profile screen for shipper
 
 const Stack = createNativeStackNavigator();
 
-const uri = 'http://192.168.0.18:3000/'
+const uri = 'http://192.168.0.7:3000/'
 
 function Login({ navigation }) {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState(null)
+  const [password, setPassword] = useState(null)
   const [dbpassword, setDBPassword] = useState('')
 
   const onChangeTextEmail = (inputText) => {
@@ -30,23 +33,28 @@ function Login({ navigation }) {
   }
 
   function Login() {
-    if (password != '') {
-      fetch(uri + 'login/' + email)
-        .then(response => response.json())
-        .then(data => {
-          setDBPassword(data.password);
-          // Perform your comparison here
-          if (data.password == password) {
-            navigation.navigate('Home', { parameters: {email} })
-          } else {
-            // Passwords don't match, do something else
-            console.error('Incorrect Email or Password')
-          }
-        })
-        .catch(error => console.error(error))
+    if(!email){
+      console.error('Enter A valid Email Address')
     }
-    else {
-      console.error('Enter A Password')
+    else{
+      if(!password){
+        console.error('Enter A Valid Password');
+      }
+        else{
+      fetch(uri + 'login/' + email)
+      .then(response => response.json())
+      .then(data => {
+        const shipperID = data._id;
+        if(password != data.password){
+          console.error('Incorrect Password')
+        }
+        else{
+          console.log(email, shipperID, password, data.password)
+          navigation.navigate('Home', {parameters: {shipperID}})
+        }
+      })
+      .catch(error => console.error('Incorect Email Address or Password'))
+    }
     }
   }
 
@@ -113,7 +121,12 @@ function SignUp({ navigation }) {
 
   function CreateAccount() {
     NewShipper(userData)
-    navigation.navigate('Home');
+    if(password != ''){
+      navigation.navigate('Profile', {parameters : {firstname, lastname, email, phone} });
+    }
+    else{
+      console.error('Enter A Password')
+    }
   }
 
   return (
@@ -152,6 +165,24 @@ function App() {
           name="Home"
           component={HomeScreen}
           options={{ headerBackVisible: false, headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="Profile"
+          component={Profile}
+          options={{ headerBackVisible: false, headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="ShipmentDetails"
+          component={ShipmentDetails}
+          options={{ headerBackVisible: true, headerShown: true, title: 'Shipment Details' }}
+        />
+
+        <Stack.Screen
+          name="NewShipment"
+          component={NewShipment}
+          options={{ headerBackVisible: true, headerShown: true, title: 'New Shipment' }}
         />
 
       </Stack.Navigator>
