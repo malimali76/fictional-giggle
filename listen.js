@@ -43,4 +43,35 @@ app.get('/login/:email', async (req, res) => {
       console.log(error)
     }
   })
+
+  app.get('/dashboard/:shipperID', async (req, res) => {
+    try {
+      const ID = req.params.shipperID
+      const db = client.db('project_holder');
+      const shipments = await db.collection('shipments').find({shipperid: ID}).toArray();
+      res.json(shipments);
+  }
+  catch(error){
+      res.status(500).json({'message':"Error fetching User"});
+      console.log(error)
+    }
+  })
+
+  app.get('/dashboard/shipmentdetials/:shipmentID', async (req, res) => {
+    try {
+      const ID = req.params.shipmentID
+      const db = client.db('project_holder');
+      const shipments = await db.collection('shipments').findOne({shipmentid: ID});
+      res.json(shipments);
+  }
+  catch(error){
+      res.status(500).json({'message':"Error fetching User"});
+      console.log(error)
+    }
+  })
+
+  app.post('/new-shipment', (req, res) => {
+    const db = client.db('project_holder');
+    db.collection('shipments').insertOne(req.body)
   
+  })
