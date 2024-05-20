@@ -8,13 +8,14 @@ import {HomeScreen} from './Dashboard';
 import {Profile} from './Profile';
 import { ShipmentDetails } from './shipmentDetails';
 import { NewShipment } from './NewShipment';
+import MapScreen from './Maps Test';
 
 //Problems: Figure out how to navigate to the Home Screen after adding user to the database
 //To Do: Create a profile screen for shipper
 
 const Stack = createNativeStackNavigator();
 
-const uri = 'http://192.168.0.7:3000/'
+const uri = 'http://192.168.0.14:3000/'
 
 function Login({ navigation }) {
   const [email, setEmail] = useState(null)
@@ -65,6 +66,7 @@ function Login({ navigation }) {
       <TextInput style={styles.TextBox} placeholderTextColor="white" secureTextEntry={true} onChangeText={onChangeTextPassword} value={password} placeholder='Password'></TextInput>
       <Pressable style={styles.button} onPress={Login}><Text style={styles.text}>login</Text></Pressable>
       <Pressable style={styles.button} onPress={GoToSignUp}><Text style={styles.text}>Create New Account</Text></Pressable>
+      <Pressable style={styles.button} onPress={() => navigation.navigate('Map')}><Text style={styles.text}>Test Map</Text></Pressable>
 
     </View>
   )
@@ -182,6 +184,12 @@ function App() {
         <Stack.Screen
           name="NewShipment"
           component={NewShipment}
+          options={{ headerBackVisible: true, headerShown: true, title: 'New Shipment' }}
+        />
+
+        <Stack.Screen
+          name="Map"
+          component={MapScreen}
           options={{ headerBackVisible: true, headerShown: true, title: 'New Shipment' }}
         />
 
