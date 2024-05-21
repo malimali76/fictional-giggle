@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, Button, TextInput, FlatList, TouchableHighlight, Pressable } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -8,19 +7,18 @@ import {HomeScreen} from './Dashboard';
 import {Profile} from './Profile';
 import { ShipmentDetails } from './shipmentDetails';
 import { NewShipment } from './NewShipment';
-import MapScreen from './Maps Test';
+import {Map} from './Maps Test';
 
 //Problems: Figure out how to navigate to the Home Screen after adding user to the database
 //To Do: Create a profile screen for shipper
 
 const Stack = createNativeStackNavigator();
 
-const uri = 'http://192.168.0.14:3000/'
+const uri = 'http://192.168.0.35:3000/'
 
 function Login({ navigation }) {
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
-  const [dbpassword, setDBPassword] = useState('')
 
   const onChangeTextEmail = (inputText) => {
     setEmail(inputText);
@@ -50,7 +48,6 @@ function Login({ navigation }) {
           console.error('Incorrect Password')
         }
         else{
-          console.log(email, shipperID, password, data.password)
           navigation.navigate('Home', {parameters: {shipperID}})
         }
       })
@@ -61,12 +58,20 @@ function Login({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <Text>Login</Text>
-      <TextInput style={styles.TextBox} placeholderTextColor="white" onChangeText={onChangeTextEmail} value={email} placeholder='Email'></TextInput>
-      <TextInput style={styles.TextBox} placeholderTextColor="white" secureTextEntry={true} onChangeText={onChangeTextPassword} value={password} placeholder='Password'></TextInput>
-      <Pressable style={styles.button} onPress={Login}><Text style={styles.text}>login</Text></Pressable>
-      <Pressable style={styles.button} onPress={GoToSignUp}><Text style={styles.text}>Create New Account</Text></Pressable>
-      <Pressable style={styles.button} onPress={() => navigation.navigate('Map')}><Text style={styles.text}>Test Map</Text></Pressable>
+      <View style={[styles.TextBox]}>
+      <TextInput style={[{color: 'black'}, {fontSize: 15}]} placeholderTextColor="grey" onChangeText={onChangeTextEmail} value={email} placeholder='Email'></TextInput>
+      </View>
+
+      <View style={[styles.TextBox]}>
+      <TextInput style={[{color: 'black'}, {fontSize: 15}]} placeholderTextColor="grey" secureTextEntry={true} onChangeText={onChangeTextPassword} value={password} placeholder='Password'></TextInput>
+      </View>
+
+      <Pressable style={styles.Pillbutton} onPress={Login}><Text style={[{color:'black'}, {fontWeight: 'bold'}]}>login</Text></Pressable>
+
+      <View style={[{flexDirection:'row'},{margin: 10}]}>
+      <Text style={[{color:'white'}]} >Dont have an account? </Text><Pressable onPress={GoToSignUp}><Text style={{color:'lightgreen'}}>Create one here</Text></Pressable>
+      </View>
+
 
     </View>
   )
@@ -132,16 +137,21 @@ function SignUp({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
-      <Text>Create New Account</Text>
-      <TextInput style={styles.TextBox} placeholderTextColor="white" onChangeText={onChangeTextFirstName} value={firstname} placeholder='First Name'></TextInput>
-      <TextInput style={styles.TextBox} placeholderTextColor="white" onChangeText={onChangeTextLastName} value={lastname} placeholder='Last Name'></TextInput>
-      <TextInput style={styles.TextBox} placeholderTextColor="white" onChangeText={onChangeTextEmail} value={email} placeholder='E-mail'></TextInput>
-      <TextInput style={styles.TextBox} placeholderTextColor="white" onChangeText={onChangeTextPhone} value={phone} placeholder='Phone'></TextInput>
-      <TextInput style={styles.TextBox} placeholderTextColor="white" onChangeText={onChangeTextPassword} secureTextEntry={true} value={password} placeholder='Password'></TextInput>
-      <TextInput style={styles.TextBox} placeholderTextColor="white" onChangeText={onChangeTextConfirmPassword} secureTextEntry={true} value={confirmpassword} placeholder='Confirm Password'></TextInput>
+    <View style={[styles.container,{justifyContent: 'center'},{paddingBottom: 0}]}>
 
-      <Pressable style={styles.button} onPress={CreateAccount}><Text style={styles.text}>Create Account</Text></Pressable>
+      <View>
+      <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextFirstName} value={firstname} placeholder='First Name'></TextInput>
+      <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextLastName} value={lastname} placeholder='Last Name'></TextInput>
+      <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextEmail} value={email} placeholder='E-mail'></TextInput>
+      <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextPhone} value={phone} placeholder='Phone'></TextInput>
+      <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextPassword} secureTextEntry={true} value={password} placeholder='Password'></TextInput>
+      <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextConfirmPassword} secureTextEntry={true} value={confirmpassword} placeholder='Confirm Password'></TextInput>
+      </View>
+
+      <Pressable style={[styles.Pillbutton,{width: 150}]} onPress={CreateAccount}><Text style={[{color:'black'}, {fontWeight: 'bold'}]}>Create Account</Text></Pressable>
+      <View style={[{flexDirection:'row'},{margin: 10}]}>
+      <Text style={[{color:'white'}]} >Already have an account? </Text><Pressable onPress={() => navigation.navigate('Login')}><Text style={{color:'lightgreen'}}>Login</Text></Pressable>
+      </View>
 
     </View>
   )
@@ -154,13 +164,13 @@ function App() {
         <Stack.Screen
           name="Login"
           component={Login}
-          options={{ title: 'Login' }}
+          options={{ title: 'Login', headerShown: false }}
         />
 
         <Stack.Screen
           name="SignUp"
           component={SignUp}
-          options={{ title: 'Sign Up' }}
+          options={{ title: 'Sign Up', headerShown: false }}
         />
 
         <Stack.Screen
@@ -189,7 +199,7 @@ function App() {
 
         <Stack.Screen
           name="Map"
-          component={MapScreen}
+          component={Map}
           options={{ headerBackVisible: true, headerShown: true, title: 'New Shipment' }}
         />
 
@@ -203,31 +213,30 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'black',
     alignItems: 'center',
-    justifyContent: 'center',
-
+    justifyContent: 'flex-end',
+    paddingBottom: 40
   },
   TextBox: {
-    borderWidth: 2,
-    height: 50,
-    margin: 10,
-    width: 300,
-    backgroundColor: 'black',
-    borderRadius: 5,
-    paddingVertical: 6,
-    paddingHorizontal: 16,
-    color: 'white',
+  height: 50,
+  width: 300,
+  paddingLeft: 15,
+  justifyContent: 'center',
+  borderRadius: 15,
+  elevation: 3,
+  margin: 10,
+  backgroundColor: 'white'
   },
-  button: {
-    alignItems: 'center',
+  Pillbutton: {
+    backgroundColor: 'lightgreen',
+    height: 40,
+    width: 100,
     justifyContent: 'center',
-    paddingVertical: 6,
-    paddingHorizontal: 16,
-    borderRadius: 5,
-    width: 200,
-    elevation: 3,
-    backgroundColor: 'black',
+    alignItems: 'center',
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: 'green',
     margin: 10
   },
   text: {
@@ -235,6 +244,6 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     fontWeight: 'bold',
     letterSpacing: 0.25,
-    color: 'white',
+    color: 'black',
   },
 });
