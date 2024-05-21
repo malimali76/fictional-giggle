@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Pressable, FlatList } from 'react-native';
 
 //Figure out the error when navigating from create shipment screen. Parameter Error
 
-const uri = 'http://192.168.0.7:3000/'
+const uri = 'http://192.168.0.35:3000/'
 
 export function HomeScreen({navigation, route}) {
   
@@ -26,8 +26,8 @@ export function HomeScreen({navigation, route}) {
             data={shipments}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
-              <View style={styles.container}>
-                <Pressable style={styles.shipment} onPress={() => {navigation.navigate('ShipmentDetails', {shipment: item})}}>
+              <View style={{}}>
+                <Pressable style={[styles.Pillbutton, {width: 300}]} onPress={() => {navigation.navigate('ShipmentDetails', {shipment: item})}}>
                 <Text style={styles.text}>{item.location} to {item.destination}</Text>
                 </Pressable>
                 
@@ -37,8 +37,8 @@ export function HomeScreen({navigation, route}) {
           />
 
           <View>
-          <Pressable style={styles.shipment} onPress={() => {navigation.navigate('NewShipment', shipperID)}}>
-          <Text  style={styles.text}>Ceate A new Shipment</Text>
+          <Pressable style={[styles.Pillbutton,  {width: 150}]} onPress={() => {navigation.navigate('NewShipment', shipperID)}}>
+          <Text  style={styles.text}>New shipment</Text>
           </Pressable>
           </View>
         </View>
@@ -46,52 +46,39 @@ export function HomeScreen({navigation, route}) {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-  
-    },
-    TextBox: {
-      borderWidth: 2,
-      height: 50,
-      margin: 10,
-      width: 300,
-      backgroundColor: 'black',
-      borderRadius: 5,
-      paddingVertical: 6,
-      paddingHorizontal: 16,
-      color: 'white',
-    },
-    button: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingVertical: 6,
-      paddingHorizontal: 16,
-      borderRadius: 5,
-      width: 200,
-      elevation: 3,
-      backgroundColor: 'black',
-      margin: 10
-    },
-    text: {
-      fontSize: 14,
-      lineHeight: 21,
-      fontWeight: 'bold',
-      letterSpacing: 0.25,
-      color: 'white',
-    },
-    shipment: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingVertical: 5,
-      paddingHorizontal: 16,
-      borderRadius: 10,
-      width: 300,
-      height: 50,
-      elevation: 3,
-      backgroundColor: 'black',
-      margin: 15
-    },
-  });
+  container: {
+    flex: 1,
+    backgroundColor: 'black',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingBottom: 40
+  },
+  TextBox: {
+  height: 50,
+  width: 300,
+  paddingLeft: 15,
+  justifyContent: 'center',
+  borderRadius: 15,
+  elevation: 3,
+  margin: 10,
+  backgroundColor: 'white'
+  },
+  Pillbutton: {
+    backgroundColor: 'lightgreen',
+    height: 40,
+    width: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 50,
+    borderWidth: 1,
+    borderColor: 'green',
+    margin: 10
+  },
+  text: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'black',
+  },
+});
