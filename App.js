@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, Button, TextInput, FlatList, TouchableHighlight, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, FlatList, TouchableHighlight, Pressable, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
@@ -8,13 +8,15 @@ import {Profile} from './Profile';
 import { ShipmentDetails } from './shipmentDetails';
 import { NewShipment } from './NewShipment';
 import {Map} from './Maps Test';
+import { styles } from './assets/Styles';
+import { DriverDashboard } from './DriverDashboard';
 
 //Problems: Figure out how to navigate to the Home Screen after adding user to the database
 //To Do: Create a profile screen for shipper
 
 const Stack = createNativeStackNavigator();
 
-const uri = 'http://192.168.0.35:3000/'
+const uri = 'http://192.168.0.11:3000/'
 
 function Login({ navigation }) {
   const [email, setEmail] = useState(null)
@@ -56,8 +58,34 @@ function Login({ navigation }) {
     }
   }
 
+  function DriverLogin() {
+    if(!email){
+      console.error('Enter A valid Email Address')
+    }
+    else{
+      if(!password){
+        console.error('Enter A Valid Password');
+      }
+        else{
+      fetch(uri + 'driver-login/' + email)
+      .then(response => response.json())
+      .then(data => {
+        const driverID = data._id;
+        if(password != data.password){
+          console.error('Incorrect Password')
+        }
+        else{
+          navigation.navigate('DriverDashboard', {parameters: {driverID}})
+        }
+      })
+      .catch(error => console.error('Incorect Email Address or Password'))
+    }
+    }
+  }
+
   return (
     <View style={styles.container}>
+      <View><Image style={{margin:10}} source={require('./assets/favicon.png')}/></View>
       <View style={[styles.TextBox]}>
       <TextInput style={[{color: 'black'}, {fontSize: 15}]} placeholderTextColor="grey" onChangeText={onChangeTextEmail} value={email} placeholder='Email'></TextInput>
       </View>
@@ -66,12 +94,16 @@ function Login({ navigation }) {
       <TextInput style={[{color: 'black'}, {fontSize: 15}]} placeholderTextColor="grey" secureTextEntry={true} onChangeText={onChangeTextPassword} value={password} placeholder='Password'></TextInput>
       </View>
 
-      <Pressable style={styles.Pillbutton} onPress={Login}><Text style={[{color:'black'}, {fontWeight: 'bold'}]}>login</Text></Pressable>
 
+
+      <View style={[{flexDirection:'row'},{marginTop: 10},{marginBottom: 10}, {}, {width: '100%'}, {justifyContent:'center'}]}>
+      <Pressable style={styles.Pillbutton} onPress={Login}><Text style={[{color:'black'}, {fontWeight: 'bold'}]}>login</Text></Pressable>
+      <Pressable style={[styles.Pillbutton,{width: 150}]} onPress={DriverLogin}><Text style={[{color:'black'}, {fontWeight: 'bold'}]}>login as Driver</Text></Pressable>
+      </View>
+      
       <View style={[{flexDirection:'row'},{margin: 10}]}>
       <Text style={[{color:'white'}]} >Dont have an account? </Text><Pressable onPress={GoToSignUp}><Text style={{color:'lightgreen'}}>Create one here</Text></Pressable>
       </View>
-
 
     </View>
   )
@@ -149,6 +181,8 @@ function SignUp({ navigation }) {
       </View>
 
       <Pressable style={[styles.Pillbutton,{width: 150}]} onPress={CreateAccount}><Text style={[{color:'black'}, {fontWeight: 'bold'}]}>Create Account</Text></Pressable>
+      
+      <Pressable style={[styles.Pillbutton,{width: 170}, {marginTop: 20}]} onPress={CreateAccount}><Text style={[{color:'black'}, {fontWeight: 'bold'}]}>Create Driver Account</Text></Pressable>
       <View style={[{flexDirection:'row'},{margin: 10}]}>
       <Text style={[{color:'white'}]} >Already have an account? </Text><Pressable onPress={() => navigation.navigate('Login')}><Text style={{color:'lightgreen'}}>Login</Text></Pressable>
       </View>
@@ -176,6 +210,12 @@ function App() {
         <Stack.Screen
           name="Home"
           component={HomeScreen}
+          options={{ headerBackVisible: false, headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="DriverDashboard"
+          component={DriverDashboard}
           options={{ headerBackVisible: false, headerShown: false }}
         />
 
@@ -209,41 +249,3 @@ function App() {
 }
 
 export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: 'black',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    paddingBottom: 40
-  },
-  TextBox: {
-  height: 50,
-  width: 300,
-  paddingLeft: 15,
-  justifyContent: 'center',
-  borderRadius: 15,
-  elevation: 3,
-  margin: 10,
-  backgroundColor: 'white'
-  },
-  Pillbutton: {
-    backgroundColor: 'lightgreen',
-    height: 40,
-    width: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 50,
-    borderWidth: 1,
-    borderColor: 'green',
-    margin: 10
-  },
-  text: {
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: 'bold',
-    letterSpacing: 0.25,
-    color: 'black',
-  },
-});
