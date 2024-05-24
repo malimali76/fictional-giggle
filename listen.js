@@ -44,11 +44,37 @@ app.get('/login/:email', async (req, res) => {
     }
   })
 
+  app.get('/driver-login/:email', async (req, res) => {
+    try {
+      const email = req.params.email
+      const db = client.db('project_holder');
+      const driver = await db.collection('drivers').findOne({email: email});
+      res.json(driver);
+  }
+  catch(error){
+      res.status(500).json({'message':"Error fetching User"});
+      console.log(error)
+    }
+  })
+
   app.get('/dashboard/:shipperID', async (req, res) => {
     try {
       const ID = req.params.shipperID
       const db = client.db('project_holder');
       const shipments = await db.collection('shipments').find({shipperid: ID}).toArray();
+      res.json(shipments);
+  }
+  catch(error){
+      res.status(500).json({'message':"Error fetching User"});
+      console.log(error)
+    }
+  })
+
+  app.get('/driver-dashboard/:driverID', async (req, res) => {
+    try {
+      const ID = req.params.driverID
+      const db = client.db('project_holder');
+      const shipments = await db.collection('shipments').find({driverid: ID}).toArray();
       res.json(shipments);
   }
   catch(error){
