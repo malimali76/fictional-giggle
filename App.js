@@ -247,7 +247,7 @@ function App() {
         <Stack.Screen
           name="LiveShipments"
           component={LiveShipments}
-          options={{ headerBackVisible: true, headerShown: true, title: 'New Shipment' }}
+          options={{ headerBackVisible: true, headerShown: false, title: 'New Shipment' }}
         />
 
       </Stack.Navigator>
