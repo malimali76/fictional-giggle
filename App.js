@@ -10,13 +10,14 @@ import { NewShipment } from './NewShipment';
 import {Map} from './Maps Test';
 import { styles } from './assets/Styles';
 import { DriverDashboard } from './DriverDashboard';
+import {uri} from './assets/uri'
+import { LiveShipments } from './LiveShipments';
 
 //Problems: Figure out how to navigate to the Home Screen after adding user to the database
 //To Do: Create a profile screen for shipper
 
 const Stack = createNativeStackNavigator();
 
-const uri = 'http://192.168.0.11:3000/'
 
 function Login({ navigation }) {
   const [email, setEmail] = useState(null)
@@ -50,10 +51,10 @@ function Login({ navigation }) {
           console.error('Incorrect Password')
         }
         else{
-          navigation.navigate('Home', {parameters: {shipperID}})
+          navigation.replace('Home', {parameters: {shipperID}})
         }
       })
-      .catch(error => console.error('Incorect Email Address or Password'))
+      .catch(error => console.error('Incorrect Email Address or Password'))
     }
     }
   }
@@ -228,18 +229,24 @@ function App() {
         <Stack.Screen
           name="ShipmentDetails"
           component={ShipmentDetails}
-          options={{ headerBackVisible: true, headerShown: true, title: 'Shipment Details' }}
+          options={{headerShown: false, title: 'Shipment Details' }}
         />
 
         <Stack.Screen
           name="NewShipment"
           component={NewShipment}
-          options={{ headerBackVisible: true, headerShown: true, title: 'New Shipment' }}
+          options={{headerShown: false, title: 'New Shipment' }}
         />
 
         <Stack.Screen
           name="Map"
           component={Map}
+          options={{ headerBackVisible: true, headerShown: true, title: 'New Shipment' }}
+        />
+
+        <Stack.Screen
+          name="LiveShipments"
+          component={LiveShipments}
           options={{ headerBackVisible: true, headerShown: true, title: 'New Shipment' }}
         />
 
