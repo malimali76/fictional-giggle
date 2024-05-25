@@ -1,117 +1,46 @@
-//Connect To mongoDB
-const {MongoClient} = require('mongodb');
-const uri = 'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.2.2';
-const client = new MongoClient(uri);
-const bodyParser = require('body-parser');
+import { StyleSheet} from 'react-native';
 
-async function connectToMongo(){
-  try {
-      await client.connect();
-      console.log('Connected to MongoDB');
-    }
-  catch (error) {
-          console.error('Error connecting to MongoDB:', error);
-      }
-}
-connectToMongo();
 
-//Listen on Port 3000
-const express = require('express')
-const app = express()
-const port = 3000
-app.use(bodyParser.json());
-
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
-
-app.post('/new-account', (req, res) => {
-  const db = client.db('project_holder');
-  db.collection('shippers').insertOne(req.body)
-
-})
-
-app.get('/login/:email', async (req, res) => {
-    try {
-      const email = req.params.email
-      const db = client.db('project_holder');
-      const shippers = await db.collection('shippers').findOne({email: email});
-      res.json(shippers);
-  }
-  catch(error){
-      res.status(500).json({'message':"Error fetching User"});
-      console.log(error)
-    }
-  })
-
-  app.get('/driver-login/:email', async (req, res) => {
-    try {
-      const email = req.params.email
-      const db = client.db('project_holder');
-      const driver = await db.collection('drivers').findOne({email: email});
-      res.json(driver);
-  }
-  catch(error){
-      res.status(500).json({'message':"Error fetching User"});
-      console.log(error)
-    }
-  })
-
-  app.get('/dashboard/:shipperID', async (req, res) => {
-    try {
-      const ID = req.params.shipperID
-      const db = client.db('project_holder');
-      const shipments = await db.collection('shipments').find({shipperid: ID}).toArray();
-      res.json(shipments);
-  }
-  catch(error){
-      res.status(500).json({'message':"Error fetching User"});
-      console.log(error)
-    }
-  })
-
-  app.get('/driver-dashboard/:driverID', async (req, res) => {
-    try {
-      const ID = req.params.driverID
-      const db = client.db('project_holder');
-      const shipments = await db.collection('shipments').find({driverid: ID}).toArray();
-      res.json(shipments);
-  }
-  catch(error){
-      res.status(500).json({'message':"Error fetching User"});
-      console.log(error)
-    }
-  })
-
-  app.get('/driver-dashboard/live-shipments/:driverID', async (req, res) => {
-    try {
-      const ID = req.params.driverID
-      const db = client.db('project_holder');
-      const shipments = await db.collection('shipments').find({driverid: {$nin: [ID]}}).toArray();
-      
-      res.json(shipments);
-  }
-  catch(error){
-      res.status(500).json({'message':"Error fetching User"});
-      console.log(error)
-    }
-  })
-
-  app.get('/dashboard/shipmentdetials/:shipmentID', async (req, res) => {
-    try {
-      const ID = req.params.shipmentID
-      const db = client.db('project_holder');
-      const shipments = await db.collection('shipments').findOne({shipmentid: ID});
-      res.json(shipments);
-  }
-  catch(error){
-      res.status(500).json({'message':"Error fetching User"});
-      console.log(error)
-    }
-  })
-
-  app.post('/new-shipment', (req, res) => {
-    const db = client.db('project_holder');
-    db.collection('shipments').insertOne(req.body)
-  
-  })
+export const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: 'black',
+      alignItems: 'center',
+      justifyContent: 'flex-end'
+    },
+    TextBox: {
+    height: 50,
+    width: 300,
+    paddingLeft: 15,
+    justifyContent: 'center',
+    borderRadius: 15,
+    elevation: 3,
+    margin: 10,
+    backgroundColor: 'white'
+    },
+    Pillbutton: {
+      backgroundColor: 'lightgreen',
+      height: 40,
+      width: 100,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 50,
+      borderWidth: 1,
+      borderColor: 'green',
+      margin: 10
+    },
+    text: {
+      fontSize: 16,
+      lineHeight: 21,
+      fontWeight: 'bold',
+      letterSpacing: 0.25,
+      color: 'black',
+    },
+    regtext: {
+      fontSize: 16,
+      lineHeight: 21,
+      fontWeight: 'bold',
+      letterSpacing: 0.25,
+      color: 'white',
+    },
+  });
