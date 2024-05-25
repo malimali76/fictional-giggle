@@ -20,22 +20,24 @@ export function DriverDashboard({ navigation, route }) {
     .catch(error => console.error(error))
 
   return (
-    <View style={[styles.container, { paddingTop: 30 }]}>
+    <View style={[styles.container, { paddingTop: 50 }]}>
       <Text style={[{ color: 'white' }, {fontSize: 20}]}>Shipments</Text>
 
-      <FlatList style={[{backgroundColor: 'white'},{width: 300}, {borderRadius: 5}]}
+      <FlatList style={[{width: 300}, {borderRadius: 5}]}
         data={shipments}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
-          <Pressable style={[{ backgroundColor: 'green', margin: 10 }]} onPress={() => { navigation.navigate('ShipmentDetails', { shipment: item }) }}>
-            <Text style={{ color: 'white' }}>{item.location} to {item.destination}</Text>
+          <Pressable style={[{margin: 10 }, {borderBottomWidth: 1}, {borderColor: 'grey'}, {height: 70}]} onPress={() => { navigation.navigate('ShipmentDetails', { shipment: item }) }}>
+            <Text style={styles.regtext}>{item.location} to {item.destination}</Text>
+            <Text style={{ color: 'white' }}>{item.category}</Text>
+            <Text style={{ color: 'white' }}>{item.itemAmount}</Text>
           </Pressable>
         )}
       />
 
       <View>
-        <Pressable style={[{}]} onPress={() => { navigation.navigate('LiveShipments', {parameters: driverID}) }}>
-          <Text style={{ color: 'white' }}>Open Offers</Text>
+        <Pressable style={styles.Pillbutton} onPress={() => { navigation.navigate('LiveShipments', {parameters: driverID}) }}>
+          <Text style={styles.text}>Open Offers</Text>
         </Pressable>
       </View>
     </View>
