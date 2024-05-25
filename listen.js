@@ -83,6 +83,20 @@ app.get('/login/:email', async (req, res) => {
     }
   })
 
+  app.get('/driver-dashboard/live-shipments/:driverID', async (req, res) => {
+    try {
+      const ID = req.params.driverID
+      const db = client.db('project_holder');
+      const shipments = await db.collection('shipments').find({driverid: null}).toArray();
+      
+      res.json(shipments);
+  }
+  catch(error){
+      res.status(500).json({'message':"Error fetching User"});
+      console.log(error)
+    }
+  })
+
   app.get('/dashboard/shipmentdetials/:shipmentID', async (req, res) => {
     try {
       const ID = req.params.shipmentID
