@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, Pressable, FlatList } from 'react-native';
 import { styles } from './assets/Styles';
+import {uri} from './assets/uri'
 
 //Figure out the error when navigating from create shipment screen. Parameter Error
-
-const uri = 'http://192.168.0.11:3000/'
 
 export function DriverDashboard({ navigation, route }) {
 
@@ -35,8 +34,8 @@ export function DriverDashboard({ navigation, route }) {
       />
 
       <View>
-        <Pressable style={[{}]} onPress={() => { navigation.navigate('NewShipment', shipperID) }}>
-          <Text style={{ color: 'white' }}>Ceate A new Shipment</Text>
+        <Pressable style={[{}]} onPress={() => { navigation.navigate('LiveShipments', {parameters: driverID}) }}>
+          <Text style={{ color: 'white' }}>Open Offers</Text>
         </Pressable>
       </View>
     </View>
