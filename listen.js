@@ -87,7 +87,7 @@ app.get('/login/:email', async (req, res) => {
     try {
       const ID = req.params.driverID
       const db = client.db('project_holder');
-      const shipments = await db.collection('shipments').find({driverid: null}).toArray();
+      const shipments = await db.collection('shipments').find({driverid: {$nin: [ID]}}).toArray();
       
       res.json(shipments);
   }
