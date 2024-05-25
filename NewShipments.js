@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, Pressable, FlatList, SafeAreaView, TextInput } from 'react-native';
 import { HomeScreen } from './Dashboard';
+import {uri} from './assets/uri'
+import { styles } from './assets/Styles';
 
-const uri = 'http://192.168.0.7:3000/'
 export function NewShipment({navigation, route}){
     shipperid = route.params;
+    shipperID = route.params;
 
     const [title, setTitle] = useState('')
     const [location, setLocation] = useState('')
@@ -54,7 +56,7 @@ export function NewShipment({navigation, route}){
     if(location != ''){
       console.log('Shipment Created')
       NewShipment(shipmentData)
-      navigation.navigate('Home')
+      navigation.navigate('Home', {parameters:{shipperID}})
     }
     else{
       console.error('Enter A PickUp Location')
@@ -64,76 +66,16 @@ export function NewShipment({navigation, route}){
   return (
     <View style={styles.container}>
       <Text>Create A New Shipment</Text>
-      <TextInput style={styles.TextBox} placeholderTextColor="white" onChangeText={onChangeTextTitle} value={title} placeholder='Shipment Title'></TextInput>
-      <TextInput style={styles.TextBox} placeholderTextColor="white" onChangeText={onChangeTextLocation} value={location} placeholder='Pick Up Location'></TextInput>
-      <TextInput style={styles.TextBox} placeholderTextColor="white" onChangeText={onChangeTextDestination} value={destination} placeholder='Destination'></TextInput>
-      <TextInput style={styles.TextBox} placeholderTextColor="white" onChangeText={onChangeTextCategory} value={category} placeholder='Shipment Category'></TextInput>
-      <TextInput style={styles.TextBoxBig} placeholderTextColor="white" onChangeText={onChangeTextDescription} value={description} placeholder='Description'></TextInput>
-      <TextInput style={styles.TextBox} placeholderTextColor="white" onChangeText={onChangeTextItemAmount} value={itemAmount} placeholder='Item Amount'></TextInput>
+      <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextTitle} value={title} placeholder='Shipment Title'></TextInput>
+      <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextLocation} value={location} placeholder='Pick Up Location'></TextInput>
+      <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextDestination} value={destination} placeholder='Destination'></TextInput>
+      <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextCategory} value={category} placeholder='Shipment Category'></TextInput>
+      <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextDescription} value={description} placeholder='Description'></TextInput>
+      <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextItemAmount} value={itemAmount} placeholder='Item Amount'></TextInput>
 
-      <Pressable style={styles.button} onPress={CreateShipment}><Text style={styles.text}>Create New Shipmentt</Text></Pressable>
+      <Pressable style={[styles.Pillbutton,{width: 160}]} onPress={CreateShipment}><Text style={styles.text}>Create Shipmentt</Text></Pressable>
 
     </View>
   )
 }
 
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-  
-    },
-    TextBox: {
-      borderWidth: 2,
-      height: 50,
-      margin: 10,
-      width: 300,
-      backgroundColor: 'black',
-      borderRadius: 5,
-      paddingVertical: 6,
-      paddingHorizontal: 16,
-      color: 'white',
-    },
-    TextBoxBig: {
-        borderWidth: 2,
-        height: 50,
-        margin: 10,
-        width: 300,
-        backgroundColor: 'black',
-        borderRadius: 5,
-        paddingVertical: 6,
-        paddingHorizontal: 16,
-        color: 'white',
-      },
-    button: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingVertical: 6,
-      paddingHorizontal: 16,
-      borderRadius: 5,
-      width: 200,
-      elevation: 3,
-      backgroundColor: 'black',
-      margin: 10
-    },
-    text: {
-      fontSize: 11,
-      lineHeight: 21,
-      fontWeight: 'bold',
-      letterSpacing: 0.25,
-      color: 'white',
-    },
-    shipment: {
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingVertical: 5,
-      paddingHorizontal: 16,
-      borderRadius: 10,
-      width: 300,
-      elevation: 3,
-      backgroundColor: 'black',
-      margin: 15
-    },
-  });
