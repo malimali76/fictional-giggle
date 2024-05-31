@@ -1,46 +1,45 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, Pressable, FlatList } from 'react-native';
-import {uri} from './assets/uri'
 import { styles } from './assets/Styles';
+import {uri} from './assets/uri'
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 //Figure out the error when navigating from create shipment screen. Parameter Error
 
+export function HomeScreen({ navigation, route }) {
 
-export function HomeScreen({navigation, route}) {
-  
-      const {parameters} = route.params;
-      shipperID = parameters.shipperID;
+  const { parameters } = route.params;
+  shipperID = parameters.shipperID;
 
-    const [shipments, setShipments] = useState([])
+  const [shipments, setShipments] = useState([])
 
-    const response = fetch(uri + 'dashboard/' + parameters.shipperID)
+  const response = fetch(uri + 'dashboard/' + parameters.shipperID)
     .then(response => response.json())
     .then(data => {
       setShipments(data);
     })
     .catch(error => console.error(error))
 
-    return(
-      <View  style={styles.container}>
-          <Text>Shipments:</Text>
-          <FlatList
-            data={shipments}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <View style={{}}>
-                <Pressable style={[styles.Pillbutton, {width: 300}]} onPress={() => {navigation.navigate('ShipmentDetails', {shipment: item})}}>
-                <Text style={styles.text}>{item.location} to {item.destination}</Text>
-                </Pressable>
-                
-                {/* Render other shipment properties as needed */}
-              </View>
-            )}
-          />
+  return (
+    <View style={[styles.container, { paddingTop: 30 }]}>
+      <Text style={styles.headerText}>Shipments</Text>
 
-          <View>
-          <Pressable style={[styles.Pillbutton,  {width: 150}]} onPress={() => {navigation.navigate('NewShipment', shipperID)}}>
-          <Text  style={styles.text}>New shipment</Text>
+      <FlatList style={[{width: '100%'}, {borderRadius: 5}]}
+        data={shipments}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => (
+          <Pressable style={[{marginLeft: 15}, {marginRight: 15}, {paddingLeft: 15}, {borderTopWidth: 1}, {borderColor: 'grey'}, {height: 70}]} onPress={() => { navigation.navigate('ShipmentDetails', { shipment: item }) }}>
+            <Text style={styles.header2}>{item.location.description} to {}</Text>
+            <Text style={styles.darktext}>{item.category}</Text>
+            <Text style={styles.darktext}>{item.itemAmount}</Text>
           </Pressable>
-          </View>
-        </View>
-    )
+        )}
+      />
+
+      <View>
+        <Pressable style={[styles.Pillbutton, {width: 170}]} onPress={() => { navigation.navigate('setlocation', shipperID) }}>
+          <Text style={styles.text}>New Shipment</Text>
+        </Pressable>
+      </View>
+    </View>
+  )
 }
