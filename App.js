@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, Button, TextInput, FlatList, TouchableHighlight, Pressable, Image } from 'react-native';
+import React, { useState } from 'react'
+import {Text, View, TextInput, Pressable, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import {Icon} from 'react-native-vector-icons/FontAwesome';
 import {HomeScreen} from './Dashboard';
 import {Profile} from './Profile';
 import { ShipmentDetails } from './shipmentDetails';
@@ -12,6 +13,8 @@ import { styles } from './assets/Styles';
 import { DriverDashboard } from './DriverDashboard';
 import {uri} from './assets/uri'
 import { LiveShipments } from './LiveShipments';
+import { Setlocation } from './setlocation';
+import { Setdestination } from './setdestination';
 
 //Problems: Figure out how to navigate to the Home Screen after adding user to the database
 //To Do: Create a profile screen for shipper
@@ -87,23 +90,23 @@ function Login({ navigation }) {
   return (
     <View style={styles.container}>
       <View><Image style={{margin:10}} source={require('./assets/favicon.png')}/></View>
-      <View style={[styles.TextBox]}>
-      <TextInput style={[{color: 'black'}, {fontSize: 15}]} placeholderTextColor="grey" onChangeText={onChangeTextEmail} value={email} placeholder='Email'></TextInput>
+      <View>
+      <TextInput style={styles.TextBox} placeholderTextColor='black' onChangeText={onChangeTextEmail} value={email} placeholder='Email'></TextInput>
       </View>
 
-      <View style={[styles.TextBox]}>
-      <TextInput style={[{color: 'black'}, {fontSize: 15}]} placeholderTextColor="grey" secureTextEntry={true} onChangeText={onChangeTextPassword} value={password} placeholder='Password'></TextInput>
+      <View>
+      <TextInput style={styles.TextBox} placeholderTextColor="black" secureTextEntry={true} onChangeText={onChangeTextPassword} value={password} placeholder='Password'></TextInput>
       </View>
 
 
 
       <View style={[{flexDirection:'row'},{marginTop: 10},{marginBottom: 10}, {}, {width: '100%'}, {justifyContent:'center'}]}>
-      <Pressable style={styles.Pillbutton} onPress={Login}><Text style={[{color:'black'}, {fontWeight: 'bold'}]}>login</Text></Pressable>
-      <Pressable style={[styles.Pillbutton,{width: 150}]} onPress={DriverLogin}><Text style={[{color:'black'}, {fontWeight: 'bold'}]}>login as Driver</Text></Pressable>
+      <Pressable style={styles.Pillbutton} onPress={Login}><Text style={[{color: Colors.white}, {fontWeight: 'bold'}]}>login</Text></Pressable>
+      <Pressable style={[styles.Pillbutton,{width: 150}]} onPress={DriverLogin}><Text style={[{color: Colors.white}, {fontWeight: 'bold'}]}>login as Driver</Text></Pressable>
       </View>
       
       <View style={[{flexDirection:'row'},{margin: 10}]}>
-      <Text style={[{color:'white'}]} >Dont have an account? </Text><Pressable onPress={GoToSignUp}><Text style={{color:'lightgreen'}}>Create one here</Text></Pressable>
+      <Text style={[{color: Colors.dark}]} >Dont have an account? </Text><Pressable onPress={GoToSignUp}><Text style={{color:Colors.primary}}>Create one here</Text></Pressable>
       </View>
 
     </View>
@@ -239,15 +242,20 @@ function App() {
         />
 
         <Stack.Screen
-          name="Map"
-          component={Map}
-          options={{ headerBackVisible: true, headerShown: true, title: 'New Shipment' }}
-        />
-
-        <Stack.Screen
           name="LiveShipments"
           component={LiveShipments}
           options={{ headerBackVisible: true, headerShown: false, title: 'New Shipment' }}
+        />
+
+        <Stack.Screen
+          name="setlocation"
+          component={Setlocation}
+          options={{ headerBackVisible: true, headerShown: false, title: 'New Shipment' }}
+        />
+         <Stack.Screen
+          name="setdestination"
+          component={Setdestination}
+          options={{ headerBackVisible: true, headerShown: false, title: 'New Shipment'}}
         />
 
       </Stack.Navigator>
