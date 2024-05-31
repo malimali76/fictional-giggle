@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View, Pressable, FlatList, SafeAreaView, TextInput } from 'react-native';
 import { HomeScreen } from './Dashboard';
-import {uri} from './assets/uri'
 import { styles } from './assets/Styles';
+import {uri} from './assets/uri'
 
 export function NewShipment({navigation, route}){
     shipperid = route.params;
@@ -56,7 +56,7 @@ export function NewShipment({navigation, route}){
     if(location != ''){
       console.log('Shipment Created')
       NewShipment(shipmentData)
-      navigation.navigate('Home', {parameters:{shipperID}})
+      navigation.goBack();
     }
     else{
       console.error('Enter A PickUp Location')
@@ -66,16 +66,15 @@ export function NewShipment({navigation, route}){
   return (
     <View style={styles.container}>
       <Text>Create A New Shipment</Text>
-      <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextTitle} value={title} placeholder='Shipment Title'></TextInput>
-      <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextLocation} value={location} placeholder='Pick Up Location'></TextInput>
-      <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextDestination} value={destination} placeholder='Destination'></TextInput>
-      <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextCategory} value={category} placeholder='Shipment Category'></TextInput>
-      <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextDescription} value={description} placeholder='Description'></TextInput>
-      <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextItemAmount} value={itemAmount} placeholder='Item Amount'></TextInput>
+      <TextInput style={styles.TextBox} placeholderTextColor="lightgrey" onChangeText={onChangeTextTitle} value={title} placeholder='Shipment Title'></TextInput>
+      <TextInput style={styles.TextBox} placeholderTextColor="lightgrey" onChangeText={onChangeTextLocation} value={location} placeholder='Pick Up Location'></TextInput>
+      <TextInput style={styles.TextBox} placeholderTextColor="lightgrey" onChangeText={onChangeTextDestination} value={destination} placeholder='Destination'></TextInput>
+      <TextInput style={styles.TextBox} placeholderTextColor="lightgrey" onChangeText={onChangeTextCategory} value={category} placeholder='Shipment Category'></TextInput>
+      <TextInput style={styles.TextBox} placeholderTextColor="lightgrey" onChangeText={onChangeTextDescription} value={description} placeholder='Description'></TextInput>
+      <TextInput style={styles.TextBox} placeholderTextColor="lightgrey" onChangeText={onChangeTextItemAmount} value={itemAmount} placeholder='Item Amount'></TextInput>
 
-      <Pressable style={[styles.Pillbutton,{width: 160}]} onPress={CreateShipment}><Text style={styles.text}>Create Shipmentt</Text></Pressable>
+      <Pressable style={[styles.Pillbutton, {width: 160}]} onPress={CreateShipment}><Text style={styles.text}>Create Shipmentt</Text></Pressable>
 
     </View>
   )
 }
-
