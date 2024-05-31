@@ -27,10 +27,10 @@ export function LiveShipments({ navigation, route }) {
         data={shipments}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
-          <Pressable style={[{marginLeft: 15}, {marginRight: 15}, {paddingLeft: 15}, {borderBottomWidth: 1}, {borderColor: 'grey'}, {height: 70}]} onPress={() => { navigation.navigate('ShipmentDetails', { shipment: item }) }}>
-            <Text style={styles.regtext}>{item.location} to {item.destination}</Text>
-            <Text style={{ color: 'white' }}>{item.category}</Text>
-            <Text style={{ color: 'white' }}>{item.itemAmount}</Text>
+          <Pressable style={[{marginLeft: 15}, {marginRight: 15}, {paddingLeft: 15}, {borderTopWidth: 1}, {borderColor: 'grey'}, {height: 70}]} onPress={() => { navigation.navigate('ShipmentDetails', { shipment: item }) }}>
+            <Text style={styles.darktext}>{item.location} to {item.destination}</Text>
+            <Text style={styles.darktext}>{item.category}</Text>
+            <Text style={styles.darktext}>{item.itemAmount}</Text>
           </Pressable>
         )}
       />
