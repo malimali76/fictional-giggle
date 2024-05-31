@@ -28,9 +28,9 @@ export function DriverDashboard({ navigation, route }) {
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <Pressable style={[{margin: 10 }, {borderBottomWidth: 1}, {borderColor: 'grey'}, {height: 70}]} onPress={() => { navigation.navigate('ShipmentDetails', { shipment: item }) }}>
-            <Text style={styles.regtext}>{item.location} to {item.destination}</Text>
-            <Text style={{ color: 'white' }}>{item.category}</Text>
-            <Text style={{ color: 'white' }}>{item.itemAmount}</Text>
+            <Text style={styles.darktext}>{item.location} to {item.destination}</Text>
+            <Text style={styles.darktext}>{item.category}</Text>
+            <Text style={styles.darktext}>{item.itemAmount}</Text>
           </Pressable>
         )}
       />
