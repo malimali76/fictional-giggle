@@ -8,7 +8,7 @@ import {uri} from './assets/uri'
 export function DriverDashboard({ navigation, route }) {
 
   const { parameters } = route.params;
-  driverID = parameters.driverID;
+  const driverID = parameters.driverID;
 
   const [shipments, setShipments] = useState([])
 
@@ -21,14 +21,14 @@ export function DriverDashboard({ navigation, route }) {
 
   return (
     <View style={[styles.container, { paddingTop: 50 }]}>
-      <Text style={[{ color: 'white' }, {fontSize: 20}]}>Shipments</Text>
+      <Text style={[{ color: 'black' }, {fontSize: 20}]}>Shipments</Text>
 
       <FlatList style={[{width: 300}, {borderRadius: 5}]}
         data={shipments}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <Pressable style={[{margin: 10 }, {borderBottomWidth: 1}, {borderColor: 'grey'}, {height: 70}]} onPress={() => { navigation.navigate('ShipmentDetails', { shipment: item }) }}>
-            <Text style={styles.darktext}>{item.location} to {item.destination}</Text>
+            <Text style={styles.darktext}>{item.location.description} to {item.destination.description}</Text>
             <Text style={styles.darktext}>{item.category}</Text>
             <Text style={styles.darktext}>{item.itemAmount}</Text>
           </Pressable>
@@ -36,7 +36,7 @@ export function DriverDashboard({ navigation, route }) {
       />
 
       <View>
-        <Pressable style={styles.Pillbutton} onPress={() => { navigation.navigate('LiveShipments', {parameters: driverID}) }}>
+        <Pressable style={styles.Pillbutton} onPress={() => { navigation.navigate('LiveShipments', driverID) }}>
           <Text style={styles.text}>Open Offers</Text>
         </Pressable>
       </View>
