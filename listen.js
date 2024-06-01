@@ -96,7 +96,7 @@ app.get('/login/:email', async (req, res) => {
     }
   })
 
-  app.get('/driver-dashboard/live-shipments/:shipmentID', async (req, res) => {
+  app.get('/driver-dashboard/live-shipments/:driverID', async (req, res) => {
     try {
       const ID = req.params.driverID
       const db = client.db('project_holder');
