@@ -28,7 +28,7 @@ export function HomeScreen({ navigation, route }) {
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <Pressable style={[{marginLeft: 15}, {marginRight: 15}, {paddingLeft: 15}, {borderTopWidth: 1}, {borderColor: 'grey'}, {height: 70}]} onPress={() => { navigation.navigate('ShipmentDetails', { shipment: item }) }}>
-            <Text style={styles.header2}>{item.location.description} to {}</Text>
+            <Text style={styles.header2}>{item.location.description} to {item.destination.description}</Text>
             <Text style={styles.darktext}>{item.category}</Text>
             <Text style={styles.darktext}>{item.itemAmount}</Text>
           </Pressable>
