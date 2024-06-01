@@ -6,7 +6,7 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const GOOGLE_PLACES_API_KEY = 'api_key';
+const GOOGLE_PLACES_API_KEY = '';
 
 export function Setlocation({ navigation, route }) {
     shipperid = route.params;
