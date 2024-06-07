@@ -51,6 +51,13 @@ export const styles = StyleSheet.create({
       letterSpacing: 0.25,
       color: Colors.primary,
     },
+    header3:{
+      fontSize: 15,
+      lineHeight: 21,
+      fontWeight: 'bold',
+      letterSpacing: 0.25,
+      color: Colors.primary,
+    },
     regtext: {
       fontSize: 15,
       lineHeight: 21,
