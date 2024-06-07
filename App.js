@@ -4,17 +4,15 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import {Icon} from 'react-native-vector-icons/FontAwesome';
-import {HomeScreen} from './Dashboard';
-import {Profile} from './Profile';
-import { ShipmentDetails } from './shipmentDetails';
+import {HomeScreen} from './ShipperDashboard';
+import { ShipmentDetails } from './ShipmentDetails';
 import { NewShipment } from './NewShipment';
-import {Map} from './Maps Test';
 import { styles } from './assets/Styles';
 import { DriverDashboard } from './DriverDashboard';
 import {uri} from './assets/uri'
 import { LiveShipments } from './LiveShipments';
-import { Setlocation } from './setlocation';
-import { Setdestination } from './setdestination';
+import { Setlocation } from './SetLocation';
+import { Setdestination } from './SetDestination';
 
 //Problems: Figure out how to navigate to the Home Screen after adding user to the database
 //To Do: Create a profile screen for shipper
@@ -49,12 +47,12 @@ function Login({ navigation }) {
       fetch(uri + 'login/' + email)
       .then(response => response.json())
       .then(data => {
-        const shipperID = data._id;
+        const shipperid = data._id;
         if(password != data.password){
           console.error('Incorrect Password')
         }
         else{
-          navigation.replace('Home', {parameters: {shipperID}})
+          navigation.replace('Home', {shipperid})
         }
       })
       .catch(error => console.error('Incorrect Email Address or Password'))
@@ -74,12 +72,12 @@ function Login({ navigation }) {
       fetch(uri + 'driver-login/' + email)
       .then(response => response.json())
       .then(data => {
-        const driverID = data._id;
+        const driverid = data._id;
         if(password != data.password){
           console.error('Incorrect Password')
         }
         else{
-          navigation.navigate('DriverDashboard', {parameters: {driverID}})
+          navigation.navigate('DriverDashboard', {driverid})
         }
       })
       .catch(error => console.error('Incorect Email Address or Password'))
@@ -165,7 +163,7 @@ function SignUp({ navigation }) {
   function CreateAccount() {
     NewShipper(userData)
     if(password != ''){
-      navigation.navigate('Profile', {parameters : {firstname, lastname, email, phone} });
+      navigation.goback();
     }
     else{
       console.error('Enter A Password')
@@ -224,12 +222,6 @@ function App() {
         />
 
         <Stack.Screen
-          name="Profile"
-          component={Profile}
-          options={{ headerBackVisible: false, headerShown: false }}
-        />
-
-        <Stack.Screen
           name="ShipmentDetails"
           component={ShipmentDetails}
           options={{headerShown: false, title: 'Shipment Details' }}
@@ -248,12 +240,12 @@ function App() {
         />
 
         <Stack.Screen
-          name="setlocation"
+          name="SetLocation"
           component={Setlocation}
           options={{ headerBackVisible: true, headerShown: false, title: 'New Shipment' }}
         />
          <Stack.Screen
-          name="setdestination"
+          name="SetDestination"
           component={Setdestination}
           options={{ headerBackVisible: true, headerShown: false, title: 'New Shipment'}}
         />
