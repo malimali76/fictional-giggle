@@ -6,15 +6,19 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const GOOGLE_PLACES_API_KEY = '';
+const GOOGLE_PLACES_API_KEY = 'AIzaSyADVSjCqTwE-gLkKVAotkq601bQccVWpBY';
 
 export function Setdestination({ navigation, route }) {
+    title = route.params.parameters.title;
+    description = route.params.parameters.description;
+    itemAmount = route.params.parameters.itemAmount; 
+    category = route.params.parameters.category
     location = route.params.location;
     shipperid = route.params.shipperid
 
     const [destination, setDestination] = useState(null)
 
-    const shipmentData = {shipperid, location, destination}
+    const shipmentData = {shipperid, location, destination, title, description, itemAmount, category}
 
     async function NewShipment(shipmentData) {
         try {
@@ -36,6 +40,7 @@ export function Setdestination({ navigation, route }) {
         if (destination) {
             console.log('Shipment Created')
             NewShipment(shipmentData)
+            navigation.navigate('Home', {shipperid})
         }
         else {
             console.error('Enter A PickUp Location')
