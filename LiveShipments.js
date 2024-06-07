@@ -7,10 +7,10 @@ import {uri} from './assets/uri'
 
 export function LiveShipments({ navigation, route }) {
 
-  const driverID = route.params;
+  const driverid = route.params.driverid;
   const [shipments, setShipments] = useState([])
 
-  const response = fetch(uri + 'driver-dashboard/live-shipments/' + driverID)
+  const response = fetch(uri + 'driver-dashboard/live-shipments/' + driverid)
     .then(response => response.json())
     .then(data => {
       setShipments(data);
@@ -25,7 +25,8 @@ export function LiveShipments({ navigation, route }) {
         data={shipments}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
-          <Pressable style={[{marginLeft: 15}, {marginRight: 15}, {paddingLeft: 15}, {borderTopWidth: 1}, {borderColor: 'grey'}, {height: 70}]} onPress={() => { navigation.navigate('ShipmentDetails', { shipment: item }) }}>
+          <Pressable style={[{marginLeft: 15}, {marginRight: 15}, {paddingLeft: 15}, {borderTopWidth: 1}, {borderColor: 'grey'}, {height: 70}]} onPress={() =>
+          { navigation.navigate('ShipmentDetails', {shipment: item, driverid } )}}>
             <Text style={styles.darktext}>{item.location.description} to {item.destination.description}</Text>
             <Text style={styles.darktext}>{item.category}</Text>
             <Text style={styles.darktext}>{item.itemAmount}</Text>
