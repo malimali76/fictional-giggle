@@ -6,14 +6,16 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const GOOGLE_PLACES_API_KEY = '';
+const GOOGLE_PLACES_API_KEY = 'AIzaSyADVSjCqTwE-gLkKVAotkq601bQccVWpBY';
 
 export function Setlocation({ navigation, route }) {
-    shipperid = route.params;
+    parameters = route.params;
+    console.log(route.params)
+    shipperid = route.params.shipperid;
 
     function gotodestination (){
         if(location){
-            navigation.navigate('setdestination', {location, shipperid})
+            navigation.navigate('SetDestination', {location, shipperid, parameters})
         }
         else{
             console.error('Enter A pick up location')
@@ -25,9 +27,9 @@ export function Setlocation({ navigation, route }) {
     return (
         <View style={[styles.container, {paddingTop: 50}]}>
             
-            <Pressable onPress={gotodestination} style={{height: 60, width: '100%', backgroundColor:Colors.lighter, padding: 10,
+            <Pressable onPress={gotodestination} style={{height: 60, width: '100%', backgroundColor:Colors.white, padding: 10,
              alignItems:'center', borderBottomWidth: StyleSheet.hairlineWidth, flexDirection:'row', marginBottom: 20}}>
-                <Text style={styles.darktext}>Continue</Text>
+                <Text style={styles.header2}>Continue</Text>
                 <Icon  name='chevron-right' size={20} style={{ position: 'absolute', right: 10 }}/>
             </Pressable>
 
