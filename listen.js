@@ -1,5 +1,5 @@
 //Connect To mongoDB
-const {MongoClient} = require('mongodb');
+const {MongoClient, ObjectId} = require('mongodb');
 const uri = 'mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.2.2';
 const client = new MongoClient(uri);
 const bodyParser = require('body-parser');
@@ -31,6 +31,16 @@ app.post('/new-account', (req, res) => {
 
 })
 
+app.put('/new-bid/:driverid', (req, res) => {
+  ID = req.params.driverid;
+  query = {_id: new ObjectId(req.body.shipmentid)};
+  newvalues = { $set: {driverid: ID} };
+  const db = client.db('project_holder');
+  console.log('pressed')
+  db.collection('shipments').updateOne(query, newvalues)
+
+})
+
 app.get('/login/:email', async (req, res) => {
     try {
       const email = req.params.email
@@ -57,9 +67,9 @@ app.get('/login/:email', async (req, res) => {
     }
   })
 
-  app.get('/dashboard/:shipperID', async (req, res) => {
+  app.get('/dashboard/:shipperid', async (req, res) => {
     try {
-      const ID = req.params.shipperID
+      const ID = req.params.shipperid
       const db = client.db('project_holder');
       const shipments = await db.collection('shipments').find({shipperid: ID}).toArray();
       res.json(shipments);
@@ -70,9 +80,9 @@ app.get('/login/:email', async (req, res) => {
     }
   })
 
-  app.get('/driver-dashboard/:driverID', async (req, res) => {
+  app.get('/driver-dashboard/:driverid', async (req, res) => {
     try {
-      const ID = req.params.driverID
+      const ID = req.params.driverid
       const db = client.db('project_holder');
       const shipments = await db.collection('shipments').find({driverid: ID}).toArray();
       res.json(shipments);
@@ -96,9 +106,9 @@ app.get('/login/:email', async (req, res) => {
     }
   })
 
-  app.get('/driver-dashboard/live-shipments/:driverID', async (req, res) => {
+  app.get('/driver-dashboard/live-shipments/:driverid', async (req, res) => {
     try {
-      const ID = req.params.driverID
+      const ID = req.params.driverid
       const db = client.db('project_holder');
       const shipments = await db.collection('shipments').find({driverid: {$nin: [ID] } }).toArray();
       res.json(shipments);
