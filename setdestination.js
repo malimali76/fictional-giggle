@@ -5,8 +5,9 @@ import { uri } from './assets/uri'
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { api_key } from './assets/keya';
 
-const GOOGLE_PLACES_API_KEY = '';
+const GOOGLE_PLACES_API_KEY = api_key;
 
 export function Setdestination({ navigation, route }) {
     title = route.params.parameters.title;
