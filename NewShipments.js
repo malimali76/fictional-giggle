@@ -21,9 +21,9 @@ export function NewShipment({ navigation, route }) {
     { key: '4', value: 'Heavy Equipment' },
   ]
 
-function setSelected(val){
-  setCategory(val);
-}
+  function setSelected(val) {
+    setCategory(val);
+  }
 
   const onChangeTextTitle = (inputText) => {
     setTitle(inputText);
@@ -53,11 +53,11 @@ function setSelected(val){
 
   }
 
-  async function nextPage(){
-    if(category){
-      navigation.navigate('SetLocation', {shipperid, title, category, description, itemAmount})
+  async function nextPage() {
+    if (category) {
+      navigation.navigate('SetLocation', { shipperid, title, category, description, itemAmount })
     }
-    else{
+    else {
       console.error('Choose a shipment category')
     }
   }
@@ -74,8 +74,18 @@ function setSelected(val){
   }
 
   return (
-    <View style={[{ paddingTop: 50, padding: 10 }]}>
-      <Text style={[styles.header2, { marginBottom: 20 }]}>Category</Text>
+    <View style={styles.container2}>
+
+      <View style={{
+        height: 80, width: '100%', padding: 10, backgroundColor: Colors.white,
+        justifyContent: 'flex-end', elevation: 4
+      }}>
+        <Text style={styles.header3}>NEW SHIPMENT</Text>
+      </View>
+
+      <View style={{ width: '100%', padding: 15, paddingTop: 30}}>
+
+        
       <SelectList
         setSelected={(val) => setSelected(val)}
         data={data}
@@ -86,12 +96,15 @@ function setSelected(val){
       <TextInput style={styles.TextBox} onChangeText={onChangeTextDescription} value={description} placeholder='Description'></TextInput>
       <TextInput style={styles.TextBox} onChangeText={onChangeTextItemAmount} value={itemAmount} placeholder='Item Amount'></TextInput>
 
-      <Pressable onPress={()=>{nextPage()}} style={{
-        height: 60, width: '100%', backgroundColor: Colors.lighter, padding: 10,
-        alignItems: 'center', borderBottomWidth: StyleSheet.hairlineWidth, flexDirection: 'row', marginTop: 10
+      </View>
+
+      <Pressable onPress={() => { nextPage() }} style={{
+        height: 60, width: '100%', backgroundColor: Colors.white, padding: 20,
+        alignItems: 'center', flexDirection: 'row', marginBottom: 20,
+        marginTop: 30, elevation: 3, borderRadius: 10
       }}>
         <Text style={styles.header3}>Continue</Text>
-        <Icon name='chevron-right' size={15} style={{ position: 'absolute', right: 10 }} />
+        <Icon name='chevron-right' size={20} style={{ position: 'absolute', right: 10, color: 'grey' }} />
       </Pressable>
 
     </View>
