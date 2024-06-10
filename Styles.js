@@ -9,6 +9,11 @@ export const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'flex-end'
     },
+    container2:{
+      flex: 1,
+      backgroundColor: Colors.lighter,
+      alignItems: 'center',
+    },
     TextBox: {
     height: 50,
     width: 300,
