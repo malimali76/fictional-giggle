@@ -35,10 +35,7 @@ export function DriverDashboard({ navigation, route }) {
 
   return (
     <View style={styles.container2}>
-      <View style={{
-        height: 80, width: '100%', padding: 10, backgroundColor: Colors.white,
-        justifyContent: 'flex-end', elevation: 4
-      }}>
+      <View style={styles.headerTab}>
         <Text style={styles.header3}>ACTIVE SHIPMENTS</Text>
       </View>
 
