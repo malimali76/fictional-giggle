@@ -9,13 +9,12 @@ export function ShipmentDetails({ navigation, route }) {
   const shipment = route.params.shipment;
   const driverid = route.params.driverid;
   const shipmentid = route.params.shipment._id
-  console.log(route.params)
 
   function deleteshipment() {
     null
   }
 
-  async function placebid() {
+  /*async function placebid() {
     bid_data = { driverid, shipmentid }
     if (driverid && shipmentid) {
       try {
@@ -36,7 +35,11 @@ export function ShipmentDetails({ navigation, route }) {
       console.error('fuckry graan')
     }
   }
+*/
 
+function placebid(){
+null
+}
 
   if (driverid) {
     return (
@@ -110,13 +113,13 @@ export function ShipmentDetails({ navigation, route }) {
             </ScrollView>
           </View>
 
-          <Pressable onPress={() => { placebid(), navigation.navigate('DriverDashboard', { driverid }) }}
+          <Pressable onPress={() => { placebid(), navigation.navigate('Bid', { driverid, shipment }) }}
             style={{
               height: 60, width: '100%', backgroundColor: Colors.white, padding: 10,
               alignItems: 'center', flexDirection: 'row', marginBottom: 20,
               marginTop: 30, elevation: 3, borderRadius: 10
             }}>
-            <Text style={styles.header3}>Place Bid</Text>
+            <Text style={styles.header3}>Place A Bid On Shipment</Text>
             <Icon name='chevron-right' size={15} style={{ position: 'absolute', right: 10 }} />
           </Pressable>
 
