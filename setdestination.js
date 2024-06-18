@@ -12,14 +12,14 @@ const GOOGLE_PLACES_API_KEY = api_key;
 export function Setdestination({ navigation, route }) {
     title = route.params.parameters.title;
     description = route.params.parameters.description;
-    itemAmount = route.params.parameters.itemAmount; 
+    itemAmount = route.params.parameters.itemAmount;
     category = route.params.parameters.category
     location = route.params.location;
     shipperid = route.params.shipperid
 
     const [destination, setDestination] = useState(null)
 
-    const shipmentData = {shipperid, location, destination, title, description, itemAmount, category}
+    const shipmentData = { shipperid, location, destination, title, description, itemAmount, category }
 
     async function NewShipment(shipmentData) {
         try {
@@ -41,7 +41,7 @@ export function Setdestination({ navigation, route }) {
         if (destination) {
             console.log('Shipment Created')
             NewShipment(shipmentData)
-            navigation.navigate('Home', {shipperid})
+            navigation.navigate('Home', { shipperid })
         }
         else {
             console.error('Enter A PickUp Location')
@@ -49,48 +49,63 @@ export function Setdestination({ navigation, route }) {
     }
 
     return (
-        <View style={[styles.container, {paddingTop: 50}]}>
-            
-            <Pressable onPress={() => CreateShipment(destination)} style={{height: 60, width: '100%', backgroundColor:Colors.lighter, padding: 10,
-             alignItems:'center', borderBottomWidth: StyleSheet.hairlineWidth, flexDirection:'row'}}>
-                <Text>Continue</Text>
-                <Icon  name='chevron-right' size={20} style={{ position: 'absolute', right: 10 }}/>
-            </Pressable>
+        <View style={styles.container2}>
 
-            <GooglePlacesAutocomplete
-                placeholder="Enter pick up destination"
-                minLength={2}
-                fetchDetails={true}
-                onPress={(data, details = null) => {
-                    setDestination({
-                        description: data.description,
-                        latitude: details.geometry.location.lat,
-                        longitude: details.geometry.location.lng,
-                    })
-                }}
-                query={{
-                    key: GOOGLE_PLACES_API_KEY,
-                    language: 'en',
-                }}
-                styles={{
-                    textInputContainer: {
-                        backgroundColor: 'rgba(0,0,0,0)',
-                        borderTopWidth: 0,
-                        borderBottomWidth: 0,
-                        width: '100%',
-                    },
-                    textInput: {
-                        marginLeft: 0,
-                        marginRight: 0,
-                        height: 38,
-                        color: Colors.dark,
-                        fontSize: 16,
-                        backgroundColor: Colors.light
-                    },
-                    description: {
-                    },
-                }}
-            />
+            <View style={styles.headerTab}>
+                <Text style={styles.header3}>SET LOCAION</Text>
+            </View>
+            <View style={styles.background}>
+
+                <View style={{ height: 320 }}>
+                    <GooglePlacesAutocomplete
+                        placeholder="Enter pick up destination"
+                        minLength={2}
+                        fetchDetails={true}
+                        onPress={(data, details = null) => {
+                            setDestination({
+                                description: data.description,
+                                latitude: details.geometry.location.lat,
+                                longitude: details.geometry.location.lng,
+                            })
+                        }}
+                        query={{
+                            key: GOOGLE_PLACES_API_KEY,
+                            language: 'en',
+                        }}
+                        styles={{
+                            textInputContainer: {
+                                backgroundColor: 'rgba(0,0,0,0)',
+                                borderTopWidth: 0,
+                                borderBottomWidth: 0,
+                                width: '100%',
+                            },
+                            textInput: {
+                                marginLeft: 0,
+                                marginRight: 0,
+                                height: 38,
+                                color: Colors.dark,
+                                fontSize: 16,
+                                backgroundColor: Colors.light
+                            },
+                            description: {
+                            },
+                        }}
+                    />
+                </View>
+
+
+                <Pressable style={{
+                    height: 60, width: '100%', backgroundColor: Colors.white, padding: 10,
+                    alignItems: 'center', flexDirection: 'row', marginBottom: 20,
+                    marginTop: 30, elevation: 3, borderRadius: 10
+                }} onPress={() => CreateShipment(destination)}>
+                    <Text style={styles.header3}>Next</Text>
+                    <Icon name='chevron-right' size={15} style={{ position: 'absolute', right: 10 }} />
+                </Pressable>
+
+
+            </View>
+
 
 
         </View>
