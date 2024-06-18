@@ -4,8 +4,9 @@ import MapView, { Marker } from 'react-native-maps';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import * as Location from 'expo-location';
 
+const GOOGLE_PLACES_API_KEY = 'AIzaSyADVSjCqTwE-gLkKVAotkq601bQccVWpBY';
 
-export default function App() {
+export function Map() {
   const [region, setRegion] = useState(null);
   const [marker, setMarker] = useState(null);
 
