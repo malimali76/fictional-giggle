@@ -4,7 +4,9 @@ import { styles } from './assets/Styles';
 import { uri } from './assets/uri';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import { api_key } from './assets/keya';
 
+const GOOGLE_PLACES_API_KEY = api_key;
 //Figure out the error when navigating from create shipment screen. Parameter Error
 
 export function LiveShipments({ navigation, route }) {
@@ -33,18 +35,13 @@ export function LiveShipments({ navigation, route }) {
   const LocationIcon = <Icon name="map-marker" size={15} color='grey' />;
   return (
     <View style={styles.container2}>
-      <View style={{
-        height: 80, width: '100%', padding: 10, backgroundColor: Colors.white,
-        justifyContent: 'flex-end', elevation: 4,
-      }}>
+      <View style={styles.headerTab}>
         <Text style={styles.header3}>LIVE SHIPMENTS</Text>
       </View>
 
-      <View style={{ width: '100%', flex: 1, padding: 10, paddingTop: 30, paddingBottom: 20 }}>
+      <View style={styles.background}>
 
-        <View style={{
-          width: '100%', backgroundColor: Colors.white, elevation: 4, height: 500, borderRadius: 10
-        }}>
+        <View style={styles.forgroundmain}>
 
 
           <FlatList style={[{ width: '100%' }]}
