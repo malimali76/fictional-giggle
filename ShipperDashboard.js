@@ -5,10 +5,11 @@ import { uri } from './assets/uri'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+
 //Figure out the error when navigating from create shipment screen. Parameter Error
 
-export function HomeScreen({ navigation, route }) {
-  shipperid = route.params.shipperid
+const HomeScreen = ({ navigation, shipperid, route})=> {
+
 
   const [shipments, setShipments] = useState([])
 
@@ -23,12 +24,14 @@ export function HomeScreen({ navigation, route }) {
     return shorter[0];
   };
 
-  const response = fetch(uri + 'dashboard/' + shipperid)
+  if(shipperid){
+    const response = fetch(uri + 'dashboard/' + shipperid)
     .then(response => response.json())
     .then(data => {
       setShipments(data);
     })
     .catch(error => console.error(error))
+  }
 
 
   const LocationIcon = <Icon name="map-marker" size={15} color='grey' />;
@@ -36,10 +39,7 @@ export function HomeScreen({ navigation, route }) {
 
   return (
     <View style={styles.container2}>
-      <View style={{
-        height: 80, width: '100%', padding: 10, backgroundColor: Colors.white,
-        justifyContent: 'flex-end', elevation: 4
-      }}>
+      <View style={styles.headerTab}>
         <Text style={styles.header3}>ACTIVE SHIPMENTS</Text>
       </View>
 
@@ -89,3 +89,5 @@ export function HomeScreen({ navigation, route }) {
     </View>
   )
 }
+
+export default HomeScreen;
