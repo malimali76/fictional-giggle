@@ -3,17 +3,12 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 
 export const styles = StyleSheet.create({
-  LoginPageContainer: {
-    flex: 1,
-    backgroundColor: Colors.white,
-    alignItems: 'center',
-    justifyContent: 'flex-end'
-  },
   container: {
     flex: 1,
     backgroundColor: Colors.white,
     alignItems: 'center',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    padding: 15
   },
   container2: {
     flex: 1,
