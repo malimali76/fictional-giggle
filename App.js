@@ -3,9 +3,9 @@ import { Text, View, TextInput, Pressable, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { Icon } from 'react-native-vector-icons/FontAwesome';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from './ShipperDashboard';
+import { HomeScreen } from './ShipperDashboard';
 import { ShipmentDetails } from './ShipmentDetails';
 import { NewShipment } from './NewShipment';
 import { styles } from './assets/Styles';
@@ -18,14 +18,13 @@ import { Profile } from './Profile';
 import { Bid } from './bid';
 
 
-//Problems: Figure out how to navigate to the Home Screen after adding user to the database
-//To Do: Create a profile screen for shipper
+const LoginStack = createNativeStackNavigator();
+const DashStack = createNativeStackNavigator();
+const TabStack = createNativeStackNavigator();
 
-const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
-
-function Login({ navigation }) {
+function LoginPage({ navigation }) {
   const [email, setEmail] = useState(null)
   const [password, setPassword] = useState(null)
 
@@ -57,7 +56,7 @@ function Login({ navigation }) {
               console.error('Incorrect Password')
             }
             else {
-              navigation.navigate('DashboardTabs', {shipperid} )
+              navigation.navigate('TabNav', { shipperid })
             }
           })
           .catch(error => console.error('Incorrect Email Address or Password'))
@@ -82,7 +81,7 @@ function Login({ navigation }) {
               console.error('Incorrect Password')
             }
             else {
-              navigation.navigate('DriverDashboard', { driverid })
+              navigation.navigate('DriverTabNav', { driverid })
             }
           })
           .catch(error => console.error('Incorect Email Address or Password'))
@@ -91,8 +90,9 @@ function Login({ navigation }) {
   }
 
   return (
-    <View style={styles.LoginPageContainer}>
+    <View style={styles.container}>
       <View><Image style={{ margin: 10 }} source={require('./assets/favicon.png')} /></View>
+
       <View>
         <TextInput style={styles.TextBox} placeholderTextColor='black' onChangeText={onChangeTextEmail} value={email} placeholder='Email'></TextInput>
       </View>
@@ -103,26 +103,27 @@ function Login({ navigation }) {
 
 
 
-      <View style={[{ flexDirection: 'row' }, { marginTop: 10 }, { marginBottom: 10 }, {}, { width: '100%' }, { justifyContent: 'center' }]}>
+      <View style={[{ flexDirection: 'row' }, { marginTop: 10 }, { marginBottom: 10 }, { width: '100%' }, { justifyContent: 'center' }]}>
         <Pressable style={styles.Pillbutton} onPress={Login}><Text style={[{ color: Colors.white }, { fontWeight: 'bold' }]}>login</Text></Pressable>
         <Pressable style={[styles.Pillbutton, { width: 150 }]} onPress={DriverLogin}><Text style={[{ color: Colors.white }, { fontWeight: 'bold' }]}>login as Driver</Text></Pressable>
       </View>
 
-      <View style={[{ flexDirection: 'row' }, { margin: 10 }]}>
-        <Text style={[{ color: Colors.dark }]} >Dont have an account? </Text><Pressable onPress={GoToSignUp}><Text style={{ color: Colors.primary }}>Create one here</Text></Pressable>
+      <View style={[{ flexDirection: 'row' }, { marginBottom: 10 }]}>
+        <Text style={[{ color: Colors.dark }]} >Dont have an account? </Text><Pressable onPress={GoToSignUp}><Text style={{ color: '#1292B4', fontWeight: 'bold' }}>Create one here</Text></Pressable>
       </View>
 
     </View>
   )
 }
+
 function SignUp({ navigation }) {
 
-  const [firstname, setFirstName] = useState('')
-  const [lastname, setLastName] = useState('')
-  const [email, setEmail] = useState('')
-  const [phone, setPhone] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmpassword, setConfirmPassword] = useState('')
+  const [firstname, setFirstName] = useState(null)
+  const [lastname, setLastName] = useState(null)
+  const [email, setEmail] = useState(null)
+  const [phone, setPhone] = useState(null)
+  const [password, setPassword] = useState(null)
+  const [confirmpassword, setConfirmPassword] = useState(null)
 
   const onChangeTextFirstName = (inputText) => {
     setFirstName(inputText);
@@ -167,7 +168,7 @@ function SignUp({ navigation }) {
 
   function CreateAccount() {
     NewShipper(userData)
-    if (password != '') {
+    if (password) {
       navigation.goback();
     }
     else {
@@ -176,112 +177,258 @@ function SignUp({ navigation }) {
   }
 
   return (
-    <View style={[styles.container, { justifyContent: 'center' }, { paddingBottom: 0 }]}>
+    <View style={[styles.container]}>
+      <View><Image style={{ margin: 10 }} source={require('./assets/favicon.png')} /></View>
 
       <View>
-        <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextFirstName} value={firstname} placeholder='First Name'></TextInput>
-        <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextLastName} value={lastname} placeholder='Last Name'></TextInput>
-        <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextEmail} value={email} placeholder='E-mail'></TextInput>
-        <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextPhone} value={phone} placeholder='Phone'></TextInput>
-        <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextPassword} secureTextEntry={true} value={password} placeholder='Password'></TextInput>
-        <TextInput style={styles.TextBox} placeholderTextColor="grey" onChangeText={onChangeTextConfirmPassword} secureTextEntry={true} value={confirmpassword} placeholder='Confirm Password'></TextInput>
+        <TextInput style={styles.TextBox} placeholderTextColor="black" onChangeText={onChangeTextFirstName} value={firstname} placeholder='First Name'></TextInput>
+        <TextInput style={styles.TextBox} placeholderTextColor="black" onChangeText={onChangeTextLastName} value={lastname} placeholder='Last Name'></TextInput>
+        <TextInput style={styles.TextBox} placeholderTextColor="black" onChangeText={onChangeTextEmail} value={email} placeholder='E-mail'></TextInput>
+        <TextInput style={styles.TextBox} placeholderTextColor="black" onChangeText={onChangeTextPhone} value={phone} placeholder='Phone'></TextInput>
+        <TextInput style={styles.TextBox} placeholderTextColor="black" onChangeText={onChangeTextPassword} secureTextEntry={true} value={password} placeholder='Password'></TextInput>
+        <TextInput style={styles.TextBox} placeholderTextColor="black" onChangeText={onChangeTextConfirmPassword} secureTextEntry={true} value={confirmpassword} placeholder='Confirm Password'></TextInput>
       </View>
 
-      <Pressable style={[styles.Pillbutton, { width: 150 }]} onPress={CreateAccount}><Text style={[{ color: 'black' }, { fontWeight: 'bold' }]}>Create Account</Text></Pressable>
-
-      <Pressable style={[styles.Pillbutton, { width: 170 }, { marginTop: 20 }]} onPress={CreateAccount}><Text style={[{ color: 'black' }, { fontWeight: 'bold' }]}>Create Driver Account</Text></Pressable>
-      <View style={[{ flexDirection: 'row' }, { margin: 10 }]}>
-        <Text style={[{ color: 'white' }]} >Already have an account? </Text><Pressable onPress={() => navigation.navigate('Login')}><Text style={{ color: 'lightgreen' }}>Login</Text></Pressable>
+      <Pressable style={[styles.Pillbutton, { width: 150 }, { marginTop: 20 }]} onPress={CreateAccount}><Text style={styles.text}>Create Account</Text></Pressable>
+      <View style={[{ flexDirection: 'row' }, { marginBottom: 10 }, { marginTop: 10 }]}>
+        <Text >Already have an account? </Text><Pressable onPress={() => navigation.navigate('Login')}><Text style={{ color: '#1292B4', fontWeight: 'bold' }}>Login</Text></Pressable>
       </View>
 
     </View>
   )
 }
 
-const DashboardTabs = ({route}) => {
-  const  shipperid  = route.params.shipperid;
+function DashBoardStack({ route }) {
+  const shipperid = route.params.shipperid
 
-  return(
-<Tab.Navigator>
-    <Tab.Screen name="Home" options={{headerShown: false}}>
-        {(props) => <HomeScreen {...props} shipperid={shipperid} options={{headerShown: false}} />}
-      </Tab.Screen>
-    <Tab.Screen name="Profile" component={Profile} />
-  </Tab.Navigator>
-  );
-};
+  return (
+    <DashStack.Navigator>
+      <DashStack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ headerBackVisible: false, headerShown: false }}
+        initialParams={{ shipperid }}
+      />
+
+      <DashStack.Screen
+        name="ShipmentDetails"
+        component={ShipmentDetails}
+        options={{ headerShown: false, title: 'Shipment Details' }}
+      />
+
+      <DashStack.Screen
+        name="NewShipment"
+        component={NewShipment}
+        options={{ headerShown: false, title: 'New Shipment' }}
+      />
+
+      <DashStack.Screen
+        name="SetLocation"
+        component={Setlocation}
+        options={{ headerBackVisible: true, headerShown: false, title: 'New Shipment' }}
+      />
+      <DashStack.Screen
+        name="SetDestination"
+        component={Setdestination}
+        options={{ headerBackVisible: true, headerShown: false, title: 'New Shipment' }}
+      />
+
+    </DashStack.Navigator>
+  )
+}
+
+function DriverDashBoardStack({ route }) {
+  const driverid = route.params.driverid
+
+  return (
+    <DashStack.Navigator>
+      <DashStack.Screen
+        name="DriverDashboard"
+        component={DriverDashboard}
+        options={{ headerBackVisible: false, headerShown: false }}
+        initialParams={{ driverid }}
+      />
+
+      <DashStack.Screen
+        name="ShipmentDetails"
+        component={ShipmentDetails}
+        options={{ headerShown: false, title: 'Shipment Details' }}
+      />
+
+      <DashStack.Screen
+        name="LiveShipments"
+        component={LiveShipments}
+        options={{ headerBackVisible: true, headerShown: false, title: 'New Shipment' }}
+      />
+
+      <DashStack.Screen
+        name="Bid"
+        component={Bid}
+        options={{ headerBackVisible: true, headerShown: false, title: 'New Shipment' }}
+      />
+    </DashStack.Navigator>
+  )
+}
+
+function TabNav({ route }) {
+  const shipperid = route.params.shipperid
+
+  return (
+    <Tab.Navigator>
+      <TabStack.Screen
+        name="DashboardStack"
+        component={DashBoardStack}
+        options={{
+          headerBackVisible: false, headerShown: false,
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="home" color={color} size={20} />
+          ),
+          tabBarBadge: 3,
+        }}
+        initialParams={{ shipperid }}
+      />
+
+      <TabStack.Screen
+        name="Account"
+        component={Profile}
+        options={{
+          headerBackVisible: false, headerShown: false,
+          tabBarLabel: 'Account',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="user" color={color} size={20} />
+          ),
+        }}
+        initialParams={{ shipperid }}
+      />
+
+      <TabStack.Screen
+        name="Services"
+        component={Profile}
+        options={{
+          headerBackVisible: false, headerShown: false,
+          tabBarLabel: 'Activity',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="list" color={color} size={20} />
+          ),
+          tabBarBadge: 3,
+        }}
+        initialParams={{ shipperid }}
+      />
+      <TabStack.Screen
+        name="Activity"
+        component={Profile}
+        options={{
+          headerBackVisible: false, headerShown: false,
+          tabBarLabel: 'Shipments',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="truck" color={color} size={20} />
+          ),
+          tabBarBadge: 3,
+        }}
+        initialParams={{ shipperid }}
+      />
+    </Tab.Navigator>
+
+
+
+  )
+}
+
+function DriverTabNav({ route }) {
+  const driverid = route.params.driverid
+
+  return (
+    <Tab.Navigator>
+      <TabStack.Screen
+        name="DriverDashboardStack"
+        component={DriverDashBoardStack}
+        options={{
+          headerBackVisible: false, headerShown: false,
+          tabBarLabel: 'Home',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="home" color={color} size={20} />
+          ),
+          tabBarBadge: 3,
+        }}
+        initialParams={{ driverid }}
+      />
+
+      <TabStack.Screen
+        name="Account"
+        component={Profile}
+        options={{
+          headerBackVisible: false, headerShown: false,
+          tabBarLabel: 'Account',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="user" color={color} size={20} />
+          ),
+        }}
+        initialParams={{ driverid }}
+      />
+
+      <TabStack.Screen
+        name="Services"
+        component={Profile}
+        options={{
+          headerBackVisible: false, headerShown: false,
+          tabBarLabel: 'Activity',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="list" color={color} size={20} />
+          ),
+          tabBarBadge: 3,
+        }}
+        initialParams={{ driverid }}
+      />
+      <TabStack.Screen
+        name="Activity"
+        component={Profile}
+        options={{
+          headerBackVisible: false, headerShown: false,
+          tabBarLabel: 'Shipments',
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="truck" color={color} size={20} />
+          ),
+          tabBarBadge: 3,
+        }}
+        initialParams={{ driverid }}
+      />
+    </Tab.Navigator>
+
+
+
+  )
+}
 
 function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <LoginStack.Navigator>
 
-        <Stack.Screen
+        <LoginStack.Screen
           name="Login"
-          component={Login}
+          component={LoginPage}
           options={{ title: 'Login', headerShown: false }}
         />
 
-        <Stack.Screen
+        <LoginStack.Screen
           name="SignUp"
           component={SignUp}
           options={{ title: 'Sign Up', headerShown: false }}
         />
 
-        <Stack.Screen
-          name="DashboardTabs"
-          component={DashboardTabs}
+        <LoginStack.Screen
+          name="TabNav"
+          component={TabNav}
           options={{ title: 'Sign Up', headerShown: false }}
         />
 
-        <Stack.Screen
-          name="Home"
-          component={HomeScreen}
-          options={{ headerBackVisible: false, headerShown: false }}
+        <LoginStack.Screen
+          name="DriverTabNav"
+          component={DriverTabNav}
+          options={{ title: 'Sign Up', headerShown: false }}
         />
-
-        <Stack.Screen
-          name="DriverDashboard"
-          component={DriverDashboard}
-          options={{ headerBackVisible: false, headerShown: false }}
-        />
-
-        <Stack.Screen
-          name="ShipmentDetails"
-          component={ShipmentDetails}
-          options={{ headerShown: false, title: 'Shipment Details' }}
-        />
-
-        <Stack.Screen
-          name="NewShipment"
-          component={NewShipment}
-          options={{ headerShown: false, title: 'New Shipment' }}
-        />
-
-        <Stack.Screen
-          name="LiveShipments"
-          component={LiveShipments}
-          options={{ headerBackVisible: true, headerShown: false, title: 'New Shipment' }}
-        />
-
-        <Stack.Screen
-          name="SetLocation"
-          component={Setlocation}
-          options={{ headerBackVisible: true, headerShown: false, title: 'New Shipment' }}
-        />
-        <Stack.Screen
-          name="SetDestination"
-          component={Setdestination}
-          options={{ headerBackVisible: true, headerShown: false, title: 'New Shipment' }}
-        />
-
-        <Stack.Screen
-          name="Bid"
-          component={Bid}
-          options={{ headerBackVisible: true, headerShown: false, title: 'New Shipment' }}
-        />
-
-      </Stack.Navigator>
+      </LoginStack.Navigator>
     </NavigationContainer>
   );
 }
