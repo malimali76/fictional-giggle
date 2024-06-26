@@ -34,12 +34,10 @@ export function DriverDashboard({ navigation, route }) {
   const LocationIcon = <Icon name="map-marker" size={15} color='grey' />;
 
   return (
-    <View style={styles.container2}>
-      <View style={styles.headerTab}>
-        <Text style={styles.header3}>ACTIVE SHIPMENTS</Text>
-      </View>
+    <View style={[styles.container2, {justifyContent:'center'}]}>
 
-      <View style={{ width: '100%', flex: 1, padding: 10, paddingTop: 30, paddingBottom: 20 }}>
+
+      <View style={{ width: '100%', padding: 10, paddingTop: 30, paddingBottom: 20 }}>
 
         <View style={{
           width: '100%', backgroundColor: Colors.white, elevation: 4, height: 500, borderRadius: 10
