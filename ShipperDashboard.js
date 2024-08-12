@@ -5,12 +5,8 @@ import { uri } from './assets/uri'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-
-//Figure out the error when navigating from create shipment screen. Parameter Error
-
-const HomeScreen = ({ navigation, shipperid, route})=> {
-
-
+export function HomeScreen({ navigation, route }) {
+  shipperid = route.params.shipperid
   const [shipments, setShipments] = useState([])
 
   const truncateString = (str, num) => {
@@ -24,18 +20,17 @@ const HomeScreen = ({ navigation, shipperid, route})=> {
     return shorter[0];
   };
 
-  if(shipperid){
+  if (shipperid) {
     const response = fetch(uri + 'dashboard/' + shipperid)
-    .then(response => response.json())
-    .then(data => {
-      setShipments(data);
-    })
-    .catch(error => console.error(error))
+      .then(response => response.json())
+      .then(data => {
+        setShipments(data);
+      })
+      .catch(error => console.error(error))
   }
 
-
   const LocationIcon = <Icon name="map-marker" size={15} color='grey' />;
-  const NewshipmenIcont = <Icon name="plus" size={15} color= {Colors.primary} />;
+  const NewshipmenIcont = <Icon name="plus" size={15} color={Colors.primary} />;
 
   return (
     <View style={styles.container2}>
@@ -52,7 +47,7 @@ const HomeScreen = ({ navigation, shipperid, route})=> {
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <Pressable style={[{ paddingLeft: 15 },
-              { borderColor: Colors.light }, { height: 110 }, {padding: 15}, { borderTopWidth: StyleSheet.hairlineWidth }]} onPress={() => {
+              { borderColor: Colors.light }, { height: 110 }, { padding: 15 }, { borderTopWidth: StyleSheet.hairlineWidth }]} onPress={() => {
                 navigation.navigate('ShipmentDetails',
                   { shipment: item, shipperid })
               }}>
@@ -64,30 +59,21 @@ const HomeScreen = ({ navigation, shipperid, route})=> {
                     <Text>7/8/24 - 7/15/24</Text>
                   </View>
 
-                  <View style={{ position: 'absolute', right: 10 }}>
-                    <Text style={{ marginBottom: 10 }}>0 bids</Text>
-                    <Text style={{ marginBottom: 10 }}>$32,172 offer</Text>
-                    <Text style={{ marginBottom: 10 }}>32 km.</Text>
-                  </View>
-
                 </View>
               </Pressable>
             )}
           />
-
         </View>
-
         <Pressable onPress={() => { navigation.navigate('NewShipment', { shipperid }) }} style={{
           height: 60, width: '100%', backgroundColor: Colors.white, padding: 20,
           alignItems: 'center', flexDirection: 'row', marginBottom: 20,
           marginTop: 30, elevation: 3, borderRadius: 10
         }}>
           <Text style={styles.header3}>New Shipment</Text>
-          <Icon name='plus-circle' size={20} style={{ position: 'absolute', right: 10, color: 'grey'}} />
+          <Icon name='plus-circle' size={20} style={{ position: 'absolute', right: 10, color: 'grey' }} />
         </Pressable>
+
       </View>
     </View>
   )
 }
-
-export default HomeScreen;
