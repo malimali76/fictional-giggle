@@ -16,6 +16,7 @@ import { Setlocation } from './SetLocation';
 import { Setdestination } from './SetDestination';
 import { Profile } from './Profile';
 import { Bid } from './bid';
+import { ViewBids } from './viewBids';
 
 
 const LoginStack = createNativeStackNavigator();
@@ -232,6 +233,11 @@ function DashBoardStack({ route }) {
         component={Setdestination}
         options={{ headerBackVisible: true, headerShown: false, title: 'New Shipment' }}
       />
+      <DashStack.Screen
+        name="viewBids"
+        component={ViewBids}
+        options={{ headerBackVisible: true, headerShown: false, title: 'New Shipment' }}
+      />
 
     </DashStack.Navigator>
   )
@@ -294,7 +300,7 @@ function TabNav({ route }) {
         component={Profile}
         options={{
           headerBackVisible: false, headerShown: false,
-          tabBarLabel: 'Account',
+          tabBarLabel: 'Profile',
           tabBarIcon: ({ color, size }) => (
             <Icon name="user" color={color} size={20} />
           ),
