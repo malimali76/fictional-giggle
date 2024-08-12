@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, Pressable, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Pressable, FlatList, ScrollView } from 'react-native';
 import { styles } from './assets/Styles';
-import { uri } from './assets/uri';
+import { uri } from './assets/uri'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-import { api_key } from './assets/keya';
 
-const GOOGLE_PLACES_API_KEY = api_key;
 //Figure out the error when navigating from create shipment screen. Parameter Error
 
-export function LiveShipments({ navigation, route }) {
+export function DriverDashboard({ navigation, route }) {
 
-  const driverid = route.params.driverid;
+  const driverid = route.params.driverid
+
   const [shipments, setShipments] = useState([])
 
   const truncateString = (str, num) => {
@@ -25,7 +24,7 @@ export function LiveShipments({ navigation, route }) {
     return shorter[0];
   };
 
-  const response = fetch(uri + 'driver-dashboard/live-shipments/' + driverid)
+  const response = fetch(uri + 'driver-dashboard/' + driverid)
     .then(response => response.json())
     .then(data => {
       setShipments(data);
@@ -33,15 +32,16 @@ export function LiveShipments({ navigation, route }) {
     .catch(error => console.error(error))
 
   const LocationIcon = <Icon name="map-marker" size={15} color='grey' />;
+
   return (
-    <View style={styles.container2}>
-      <View style={styles.headerTab}>
-        <Text style={styles.header3}>LIVE SHIPMENTS</Text>
-      </View>
+    <View style={[styles.container2, {justifyContent:'center'}]}>
 
-      <View style={styles.background}>
 
-        <View style={styles.forgroundmain}>
+      <View style={{ width: '100%', padding: 10, paddingTop: 30, paddingBottom: 20 }}>
+
+        <View style={{
+          width: '100%', backgroundColor: Colors.white, elevation: 4, height: 500, borderRadius: 10
+        }}>
 
 
           <FlatList style={[{ width: '100%' }]}
@@ -49,8 +49,9 @@ export function LiveShipments({ navigation, route }) {
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <Pressable style={[{ padding: 15 },
-              { borderColor: Colors.light }, { borderTopWidth: StyleSheet.hairlineWidth }, { height: 110 }]} onPress={() => { navigation.navigate('ShipmentDetails', { shipment: item, driverid }) }}>
-
+              { borderColor: Colors.light }, { borderTopWidth: StyleSheet.hairlineWidth }, { height: 110 }]} onPress={() => {
+                navigation.navigate('ShipmentDetails', { shipment: item, driverid })
+              }}>
                 <View style={{ flexDirection: 'row' }} >
                   <View >
                     <Text style={styles.header3}>{LocationIcon} {truncateString(item.location.description, 10)}</Text>
@@ -66,19 +67,18 @@ export function LiveShipments({ navigation, route }) {
                   </View>
 
                 </View>
-
               </Pressable>
             )}
           />
 
         </View>
 
-        <Pressable style={{
+        <Pressable onPress={() => { navigation.navigate('LiveShipments', { driverid }) }} style={{
           height: 60, width: '100%', backgroundColor: Colors.white, padding: 10,
           alignItems: 'center', flexDirection: 'row', marginBottom: 20,
-          marginTop: 30, elevation: 3, borderRadius: 10
+          marginTop: 30, elevation: 3, borderRadius: 10 
         }}>
-          <Text style={styles.header3}>Placeholder</Text>
+          <Text style={styles.header3}>Live Shipments</Text>
           <Icon name='chevron-right' size={15} style={{ position: 'absolute', right: 10 }} />
         </Pressable>
 
