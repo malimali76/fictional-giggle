@@ -16,6 +16,7 @@ export function Setlocation({ navigation, route }) {
     function gotodestination() {
         if (location) {
             navigation.navigate('SetDestination', { location, shipperid, parameters })
+            console.log(location)
         }
         else {
             console.error('Enter A pick up location')
@@ -29,7 +30,7 @@ export function Setlocation({ navigation, route }) {
 
 
             <View style={styles.headerTab}>
-                <Text style={styles.header3}>SET LOCAION</Text>
+                <Text style={styles.header3}>SET LOCATION</Text>
             </View>
 
             <View style={styles.background}>
