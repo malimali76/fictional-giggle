@@ -7,8 +7,8 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 export function Profile({route}){
     return(
-        <View styles={styles.container2}>
-            <Text>Profile</Text>
+        <View style={styles.container2}>
+            <Pressable style={styles.Pillbutton}><Text style={[{ color: Colors.white }, { fontWeight: 'bold' }]}>Log Out</Text></Pressable>
         </View>
     )
 }
