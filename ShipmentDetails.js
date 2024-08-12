@@ -13,6 +13,39 @@ export function ShipmentDetails({ navigation, route }) {
   function deleteshipment() {
     null
   }
+  function viewBids() {
+    navigation.navigate('viewBids', { shipmentid })
+  }
+
+  const [shipments, setShipments] = useState([])
+
+  const response = fetch(uri + 'bids/' + shipmentid)
+    .then(response => response.json())
+    .then(data => {
+      setShipments(data.bids);
+    })
+    .catch(error => console.error(error))
+
+  //cannot read bidAmount for some reason in the if statement but it reads in the while loop
+
+  if (shipments) {
+    let i = 0;
+    const [lowest, setLowest] = useState(0);
+    setLowest(shipments[0].Bidamount);
+    while (i < shipments.length) {
+      if (shipments[i].Bidamount <= lowest) {
+        lowest = shipments[i].Bidamount;
+      }
+      i++;
+    }
+    console.log(lowest)
+  }
+
+  var amountofbids = 0;
+
+  if (shipments) {
+    amountofbids = shipments.length;
+  }
 
   /*async function placebid() {
     bid_data = { driverid, shipmentid }
@@ -37,22 +70,32 @@ export function ShipmentDetails({ navigation, route }) {
   }
 */
 
-function placebid(){
-null
-}
+  const NoBid = () => {
+    if (taken) {
+      return (
+        <Pressable onPress={() => { navigation.navigate('Bid', { driverid, shipment, shipmentid }) }}
+          style={{
+            height: 60, width: '100%', backgroundColor: Colors.white, padding: 10,
+            alignItems: 'center', flexDirection: 'row', marginBottom: 20,
+            marginTop: 30, elevation: 3, borderRadius: 10
+          }}>
+          <Text style={styles.header3}>Place A Bid On Shipment</Text>
+          <Icon name='chevron-right' size={15} style={{ position: 'absolute', right: 10 }} />
+        </Pressable>
+      )
+    }
+    else {
+      return (
+        null
+      )
+    }
+  }
 
   if (driverid) {
     return (
-      <View style={styles.container2}>
+      <View style={[styles.container2, { justifyContent: 'center' }]}>
 
-        <View style={{
-          height: 80, width: '100%', padding: 10, backgroundColor: Colors.white,
-          justifyContent: 'flex-end', elevation: 4
-        }}>
-          <Text style={styles.header3}>SHIPMENT DETAILS</Text>
-        </View>
-
-        <View style={{ width: '100%', flex: 1, padding: 10, paddingTop: 30, paddingBottom: 20 }}>
+        <View style={{ width: '100%', padding: 10, paddingTop: 30, paddingBottom: 20 }}>
 
           <View style={{ height: 500 }}>
             <ScrollView style={{
@@ -62,7 +105,7 @@ null
 
               <View style={{ height: 60, padding: 10, marginTop: 10, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: Colors.light }}>
                 <Text>Title</Text>
-                <Text style={[styles.header3, { marginLeft: 10 }]}>shipment title daddy{shipment.title}</Text>
+                <Text style={[styles.header3, { marginLeft: 10 }]}>{shipment.title}</Text>
               </View>
 
               <View style={{ height: 60, padding: 10, marginTop: 10, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: Colors.light }}>
@@ -113,10 +156,10 @@ null
             </ScrollView>
           </View>
 
-          <Pressable onPress={() => { placebid(), navigation.navigate('Bid', { driverid, shipment }) }}
+          <Pressable onPress={() => { navigation.navigate('Bid', { driverid, shipment, shipmentid }) }}
             style={{
               height: 60, width: '100%', backgroundColor: Colors.white, padding: 10,
-              alignItems: 'center', flexDirection: 'row', marginBottom: 20,
+              alignItems: 'center', flexDirection: 'row',
               marginTop: 30, elevation: 3, borderRadius: 10
             }}>
             <Text style={styles.header3}>Place A Bid On Shipment</Text>
@@ -151,7 +194,7 @@ null
 
               <View style={{ height: 60, padding: 10, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: Colors.light }}>
                 <Text>Title</Text>
-                <Text style={[styles.header3, { marginLeft: 10 }]}>shipment title daddy{shipment.title}</Text>
+                <Text style={[styles.header3, { marginLeft: 10 }]}>{shipment.title}</Text>
               </View>
 
               <View style={{ height: 60, padding: 10, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: Colors.light }}>
@@ -186,12 +229,12 @@ null
 
               <View style={{ height: 60, padding: 10, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: Colors.light }}>
                 <Text>Bids</Text>
-                <Text style={[styles.header3, { marginLeft: 10 }]}>0 Bids</Text>
+                <Text style={[styles.header3, { marginLeft: 10 }]}>{amountofbids} Bids</Text>
               </View>
 
               <View style={{ height: 60, padding: 10, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: Colors.light }}>
-                <Text>Current Offer</Text>
-                <Text style={[styles.header3, { marginLeft: 10 }]}>$32,172 offer</Text>
+                <Text>Lowest Bid</Text>
+                <Text style={[styles.header3, { marginLeft: 10 }]}>$32,172</Text>
               </View>
 
               <View style={{ height: 60, padding: 10, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: Colors.light }}>
@@ -203,9 +246,11 @@ null
           </View>
 
 
+          <View style={{ flexDirection: 'row', marginTop: 10 }}>
+            <Pressable style={[styles.Pillbutton, { width: 150 }]} onPress={deleteshipment}><Text style={styles.text}>delete shipment</Text></Pressable>
+            <Pressable style={[styles.Pillbutton, { width: 150 }]} onPress={viewBids}><Text style={styles.text}>View Bids</Text></Pressable>
+          </View>
 
-          <Pressable style={[styles.Pillbutton, { width: 150 }]} onPress={deleteshipment}><Text style={styles.text}>delete shipment</Text></Pressable>
-          <Pressable style={[styles.Pillbutton, { width: 150 }]} onPress={deleteshipment}><Text style={styles.text}>Update shipment</Text></Pressable>
         </View>
 
 
