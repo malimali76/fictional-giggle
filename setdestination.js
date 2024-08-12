@@ -16,10 +16,11 @@ export function Setdestination({ navigation, route }) {
     category = route.params.parameters.category
     location = route.params.location;
     shipperid = route.params.shipperid
+    bids = [];
 
     const [destination, setDestination] = useState(null)
 
-    const shipmentData = { shipperid, location, destination, title, description, itemAmount, category }
+    const shipmentData = { shipperid, location, destination, title, description, itemAmount, category, bids }
 
     async function NewShipment(shipmentData) {
         try {
@@ -52,7 +53,7 @@ export function Setdestination({ navigation, route }) {
         <View style={styles.container2}>
 
             <View style={styles.headerTab}>
-                <Text style={styles.header3}>SET LOCAION</Text>
+                <Text style={styles.header3}>SET DESTINATION</Text>
             </View>
             <View style={styles.background}>
 
