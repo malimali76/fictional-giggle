@@ -124,6 +124,8 @@ export const styles = StyleSheet.create({
 
   },
   map: {
-    ...StyleSheet.absoluteFillObject,
+    height:200,
+    width: '100%'
+
   },
 });
